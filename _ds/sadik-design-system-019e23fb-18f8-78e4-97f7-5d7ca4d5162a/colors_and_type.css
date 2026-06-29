@@ -1,0 +1,235 @@
+/* =====================================================================
+   SADIK — Design Tokens
+   ---------------------------------------------------------------------
+   Source: sadik_v2/sadik-app (Electron app) + sadik_v2/landing (marketing).
+   Dark theme is default; .light flips the palette via :root overrides.
+   Color values are stored as space-separated RGB triples ("14 15 18")
+   so Tailwind's rgb(var(--token) / <alpha>) syntax works. The aliases
+   at the bottom (--bg-main, etc.) expose plain CSS colors for use
+   outside Tailwind.
+   ===================================================================== */
+
+:root {
+  /* ── Surface (RGB triples for alpha-aware Tailwind) ───────────────── */
+  --bg-main:       14 15 18;     /* #0E0F12 — app background */
+  --bg-sidebar:    18 20 26;     /* #12141A — chrome */
+  --bg-card:       23 25 35;     /* #171923 — primary card */
+  --bg-input:      28 30 42;     /* #1C1E2A — input / inset */
+  --bg-hover:      33 36 48;     /* #212430 — hover state */
+  --bg-elevated:   26 28 38;     /* #1A1C26 — popover, drawer */
+
+  /* ── Borders ───────────────────────────────────────────────────────── */
+  --border:        42 49 59;     /* #2A313B — visible divider */
+  --border-subtle: 31 36 44;     /* #1F242C — barely-there divider */
+  --border-focus:  167 139 250;  /* #A78BFA — purple focus ring */
+
+  /* ── Text ──────────────────────────────────────────────────────────── */
+  --text-primary:   242 244 248; /* #F2F4F8 */
+  --text-secondary: 154 163 178; /* #9AA3B2 */
+  --text-muted:     107 114 128; /* #6B7280 */
+
+  /* ── Accent palette — pastel/vibrant, used CATEGORICALLY ──────────── */
+  --accent-primary:        #A78BFA;  /* purple — brand primary */
+  --accent-primary-hover:  #8B5CF6;
+  --accent-primary-dim:    rgba(167, 139, 250, 0.12);
+
+  --accent-purple:  #A78BFA;
+  --accent-blue:    #7DD3FC;
+  --accent-cyan:    #67E8F9;
+  --accent-green:   #6EE7B7;
+  --accent-yellow:  #FCD34D;
+  --accent-orange:  #FDBA74;
+  --accent-red:     #FCA5A5;
+  --accent-pink:    #F472B6;
+
+  /* ── Mode palette — feature modes use saturated, distinct hues ────── */
+  --mode-working:   #A78BFA;
+  --mode-coding:    #67E8F9;
+  --mode-break:     #6EE7B7;
+  --mode-meeting:   #FCD34D;
+  --mode-writing:   #F472B6;
+  --mode-learning:  #60A5FA;
+  --mode-design:    #C084FC;
+  --mode-reading:   #A3E635;
+  --mode-gaming:    #FB923C;
+  --mode-custom:    #FB923C;
+
+  /* ── Status (semantic) ────────────────────────────────────────────── */
+  --status-success: #6EE7B7;
+  --status-warn:    #FCD34D;
+  --status-danger:  #FCA5A5;
+  --status-info:    #7DD3FC;
+
+  /* ── Radius scale ──────────────────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-btn: 14px;        /* default for buttons + inputs */
+  --radius-nav: 16px;
+  --radius-card:18px;        /* default for cards + drawers */
+  --radius-pill: 9999px;
+
+  /* ── Shadow / glow ─────────────────────────────────────────────────── */
+  --shadow-card:   0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-header: 0 4px 20px rgba(0, 0, 0, 0.40);
+  --shadow-nav:    0 -4px 20px rgba(0, 0, 0, 0.40);
+  --shadow-glow:   0 0 20px rgba(34, 211, 238, 0.15);
+  --oled-glow:     0 0 1px rgba(167, 139, 250, 0.30),
+                   0 0 8px rgba(167, 139, 250, 0.08);
+
+  /* ── Spacing scale (4px grid, follows Tailwind defaults) ──────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* ── Type ─────────────────────────────────────────────────────────── */
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono', 'Consolas', ui-monospace, SFMono-Regular, monospace;
+
+  --fs-display: 32px;   /* page hero, e.g. "Günaydın" */
+  --fs-h1:      24px;
+  --fs-h2:      20px;
+  --fs-h3:      16px;
+  --fs-body:    14px;   /* app default (compact Electron UI) */
+  --fs-sm:      13px;
+  --fs-xs:      11px;
+  --fs-eyebrow: 11px;   /* uppercase section labels */
+
+  --lh-tight: 1.15;
+  --lh-snug:  1.35;
+  --lh-body:  1.55;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:    0.08em;
+  --tracking-eyebrow: 0.18em;
+
+  /* ── Backdrop blur tiers ──────────────────────────────────────────── */
+  --blur-card:  blur(16px) saturate(1.3);
+  --blur-nav:   blur(20px) saturate(1.3);
+  --blur-heavy: blur(24px) saturate(1.5);
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast:    120ms;
+  --dur-default: 150ms;
+  --dur-slow:    220ms;
+}
+
+/* ── Light theme override ───────────────────────────────────────────── */
+html.light {
+  --bg-main:       246 247 251;
+  --bg-sidebar:    255 255 255;
+  --bg-card:       255 255 255;
+  --bg-input:      240 242 247;
+  --bg-hover:      234 237 244;
+  --bg-elevated:   255 255 255;
+  --border:        203 213 225;
+  --border-subtle: 226 232 240;
+  --text-primary:    2   6  23;
+  --text-secondary: 51  65  85;
+  --text-muted:     71  85 105;
+}
+
+/* ── Plain-color aliases (use outside Tailwind) ─────────────────────── */
+:root {
+  --bg-main-c:       rgb(var(--bg-main));
+  --bg-sidebar-c:    rgb(var(--bg-sidebar));
+  --bg-card-c:       rgb(var(--bg-card));
+  --bg-input-c:      rgb(var(--bg-input));
+  --bg-hover-c:      rgb(var(--bg-hover));
+  --bg-elevated-c:   rgb(var(--bg-elevated));
+  --border-c:        rgb(var(--border));
+  --border-subtle-c: rgb(var(--border-subtle));
+  --text-primary-c:   rgb(var(--text-primary));
+  --text-secondary-c: rgb(var(--text-secondary));
+  --text-muted-c:     rgb(var(--text-muted));
+}
+
+/* ── Semantic text styles ───────────────────────────────────────────── */
+.s-display {
+  font-family: var(--font-sans);
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary-c);
+}
+.s-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary-c);
+}
+.s-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--text-primary-c);
+}
+.s-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--text-primary-c);
+}
+.s-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: var(--text-primary-c);
+}
+.s-secondary {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: var(--text-secondary-c);
+}
+.s-muted {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  color: var(--text-muted-c);
+}
+.s-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-muted-c);
+}
+.s-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary-c);
+}
+.s-tabular {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ── Glass utilities (lifted directly from app/globals.css) ─────────── */
+.glass {
+  background: rgb(var(--bg-card) / 0.6);
+  backdrop-filter: var(--blur-card);
+  -webkit-backdrop-filter: var(--blur-card);
+}
+.glass-heavy {
+  background: rgb(var(--bg-main) / 0.55);
+  backdrop-filter: var(--blur-heavy);
+  -webkit-backdrop-filter: var(--blur-heavy);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}

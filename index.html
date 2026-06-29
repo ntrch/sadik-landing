@@ -1,505 +1,1275 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SADIK — Kişisel Asistan</title>
-  <meta name="description" content="Senin verini senin makinende tutan, sesli komutlarla çalışan kişisel masaüstü asistanı." />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:        #0a0a0f;
-      --bg-card:   #13131a;
-      --bg-card2:  #18181f;
-      --border:    #2a2a38;
-      --text:      #e8e8f0;
-      --muted:     #888899;
-      --accent1:   #6366f1;
-      --accent2:   #a855f7;
-      --accent3:   #3b82f6;
-      --radius:    12px;
-      --font:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 16px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--accent1); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      height: 56px;
-      background: rgba(10, 10, 15, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-brand {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      background: linear-gradient(90deg, #818cf8, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-links { display: flex; gap: 1.5rem; font-size: 0.875rem; color: var(--muted); }
-    .nav-links a { color: var(--muted); }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
-
-    /* ── HERO ── */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% -10%, rgba(99,102,241,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 80% 60%, rgba(168,85,247,0.10) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 0 40px rgba(99,102,241,0.25);
-    }
-    .hero-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #818cf8;
-      background: rgba(99,102,241,0.12);
-      border: 1px solid rgba(99,102,241,0.25);
-      border-radius: 100px;
-      padding: 0.25rem 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      background: linear-gradient(135deg, #e8e8f0 30%, #a5b4fc 70%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1.25rem;
-    }
-    .hero-pitch {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 2.5rem;
-    }
-    .cta-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.7rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.15s;
-      white-space: nowrap;
-    }
-    .btn:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #fff;
-      border: none;
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: #4a4a60; }
-
-    /* ── SECTIONS ── */
-    section {
-      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
-    }
-    .section-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent1);
-      margin-bottom: 0.6rem;
-    }
-    .section-title {
-      font-size: clamp(1.6rem, 4vw, 2.25rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-    .section-sub {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 2.5rem;
-    }
-
-    /* ── FEATURE CARDS ── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      transition: border-color 0.2s;
-    }
-    .card:hover { border-color: #3a3a52; }
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-    }
-    .card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .card p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    /* ── PRIVACY SECTION ── */
-    .privacy-section {
-      background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, rgba(168,85,247,0.04) 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .privacy-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
-      margin-top: 0;
-    }
-    .privacy-tier {
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
-    .privacy-tier .tier-name {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.35rem;
-    }
-    .tier-full   { color: #34d399; }
-    .tier-hybrid { color: #fbbf24; }
-    .tier-local  { color: #60a5fa; }
-    .privacy-tier p { font-size: 0.85rem; color: var(--muted); }
-
-    /* ── DEVICE SECTION ── */
-    .device-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      align-items: flex-start;
-    }
-    .device-card {
-      flex: 1 1 220px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
-    .device-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .device-card p { font-size: 0.85rem; color: var(--muted); }
-    .device-note {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 1.25rem;
-      padding: 0.75rem 1rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem clamp(1.5rem, 5vw, 4rem);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.82rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-    }
-    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-    .footer-links a { color: var(--muted); }
-    .footer-links a:hover { color: var(--text); text-decoration: none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .cta-group { flex-direction: column; align-items: stretch; }
-      .btn { justify-content: center; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
+<x-dc>
 
-  <!-- NAV -->
-  <nav>
-    <span class="nav-brand">SADIK</span>
-    <div class="nav-links">
-      <a href="#ozellikler">Özellikler</a>
-      <a href="#gizlilik">Gizlilik</a>
-      <a href="#cihaz">Cihaz</a>
-      <a href="https://github.com/ntrch/sadik-releases-win/releases" target="_blank" rel="noopener">Windows Sürümler</a>
-      <a href="https://github.com/ntrch/sadik-releases-mac/releases" target="_blank" rel="noopener">macOS Sürümler</a>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #0a0a0f;
+      color: #e8e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(167,139,250,0.3); } 50% { box-shadow: 0 0 40px rgba(167,139,250,0.5); } }
+    @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes checkmark { 0% { stroke-dashoffset: 24; } 100% { stroke-dashoffset: 0; } }
+    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 500px; } }
+    @keyframes breathe { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.7; } }
+
+    /* Custom cursors */
+    html, body, img, svg, picture, video, canvas, span, div, p, h1, h2, h3, h4 {
+      cursor: url('assets/cursor-1.png') 0 4, auto;
+    }
+    a, a *, button, button *, [role="button"], [role="button"] *, [onclick], [onclick] *,
+    input[type="submit"], input[type="button"], label[for], select, summary,
+    [style*="cursor: pointer"], [style*="cursor: pointer"] *,
+    [style*="cursor:pointer"], [style*="cursor:pointer"] * {
+      cursor: url('assets/cursor-2.png') 0 4, pointer !important;
+    }
+  </style>
+</helmet>
+
+<!-- ============ FLOATING PILL NAV ============ -->
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding-top: 16px; pointer-events: none;">
+  <nav style="display: flex; align-items: center; gap: clamp(16px, 3vw, 32px); background: rgba(10,10,15,0.75); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border: 1px solid rgba(42,49,59,0.5); border-radius: 9999px; padding: 10px 28px; pointer-events: auto; width: 344px; height: 65px">
+    <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onClick="{{ scrollToTop }}">
+      <div style="width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3);">
+        <img src="assets/sadik-mark.png" alt="" style="width: 52px; height: 40px; border-radius: 12px">
+      </div>
+      <span style="font-size: 0.9rem; font-weight: 800; letter-spacing: 0.08em; color: #e8e8f0; display: none">SADIK</span>
     </div>
+    <a href="#features" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">Uygulama</a>
+    <a href="#pricing" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">Fiyatlandırma</a><a href="#faq" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">SSS</a>
+    
+    
   </nav>
+</header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <img src="icon.png" alt="SADIK logosu" class="hero-logo" />
-    <span class="hero-badge">Beta &mdash; Windows &amp; macOS</span>
-    <h1>SADIK</h1>
-    <p class="hero-pitch">
-      Senin verini senin makinende tutan, sesle çalışan kişisel masaüstü asistanı.
-    </p>
-    <div class="cta-group">
-      <a
-        class="btn btn-primary"
-        href="https://github.com/ntrch/sadik-releases-win/releases/latest"
-        target="_blank" rel="noopener"
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Windows İndir
-      </a>
-      <a
-        class="btn btn-secondary"
-        href="https://github.com/ntrch/sadik-releases-mac/releases/latest"
-        target="_blank" rel="noopener"
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        macOS İndir
-      </a>
+<!-- ============ HERO ============ -->
+<section style="display: flex; flex-direction: column; align-items: center; padding: 120px 24px 48px; position: relative;">
+  <div style="position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse at center, rgba(167,139,250,0.12) 0%, transparent 70%); pointer-events: none;"></div>
+
+  <h1 style="font-size: clamp(4rem, 12vw, 7.5rem); font-weight: 900; letter-spacing: -0.04em; color: #e8e8f0; text-align: center; line-height: 0.9; position: relative;">SADIK</h1>
+
+  <p style="font-size: clamp(1rem, 2.5vw, 1.2rem); color: #888899; text-align: center; max-width: 420px; margin-top: 12px; line-height: 1.55; position: relative;">Ekranının yanında duran, orada hayat bulan en "SADIK" arkadaşın</p>
+
+  <!-- Device preview card -->
+  <div style="width: 100%; max-width: 580px; margin-top: 48px; position: relative;">
+    <div style="border-radius: 24px; background: #111118; border: 1px solid rgba(42,49,59,0.6); overflow: hidden; box-shadow: 0 4px 40px rgba(0,0,0,0.2);">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid rgba(42,49,59,0.5);">
+        <div style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 6px rgba(110,231,183,0.4);"></div>
+        <span style="font-size: 0.7rem; font-weight: 600; color: #555566; letter-spacing: 0.06em;">SADIK</span>
+      </div>
+      <div style="aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; background: #000; position: relative; overflow: hidden;">
+        <img src="uploads/blink-1.gif" alt="SADIK face" style="width: 100%; height: 100%; object-fit: contain;" ref="{{ gifImgRef }}">
+        <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+          <button onClick="{{ onFb0Click }}" style="padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: all 200ms; font-family: inherit; background: {{ fb0Bg }}; color: {{ fb0Color }}; border: 1px solid {{ fb0Border }};" style-hover="opacity: 0.85">Kodlama</button>
+          <button onClick="{{ onFb1Click }}" style="padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: all 200ms; font-family: inherit; background: {{ fb1Bg }}; color: {{ fb1Color }}; border: 1px solid {{ fb1Border }};" style-hover="opacity: 0.85">Mola</button>
+          <button onClick="{{ onFb2Click }}" style="padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: all 200ms; font-family: inherit; background: {{ fb2Bg }}; color: {{ fb2Color }}; border: 1px solid {{ fb2Border }};" style-hover="opacity: 0.85">Onay</button>
+          <button onClick="{{ onFb3Click }}" style="padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: all 200ms; font-family: inherit; background: {{ fb3Bg }}; color: {{ fb3Color }}; border: 1px solid {{ fb3Border }};" style-hover="opacity: 0.85">Bildirim</button>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;">
+        <sc-for list="{{ faceIndicators }}" as="ind">
+          <div style="width: 7px; height: 7px; border-radius: 50%; transition: all 300ms; background: {{ ind.bg }}; border: {{ ind.borderStyle }}; transform: {{ ind.scale }};"></div>
+        </sc-for>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <hr class="divider" />
+  <button onClick="{{ scrollToHowItWorks }}" style="margin-top: 32px; background: none; border: none; color: #666677; font-size: 0.85rem; font-weight: 500; cursor: pointer; display: none; align-items: center; gap: 6px; font-family: inherit; transition: color 150ms" style-hover="color: #e8e8f0" data-om-label="nasilcalisi-button">
+    Nasıl çalışır?
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+  </button>
+</section>
 
-  <!-- FEATURES -->
-  <section id="ozellikler">
-    <div class="section-inner">
-      <div class="section-label">Özellikler</div>
-      <h2 class="section-title">Ne işe yarar?</h2>
-      <p class="section-sub">Günlük iş akışını sesle veya yazıyla yönet. Sadık seninle çalışır, senin adına değil.</p>
-      <div class="cards">
-        <div class="card">
-          <div class="card-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <circle cx="9" cy="9" r="6.5" stroke="#818cf8" stroke-width="1.5"/>
-              <path d="M6.5 9c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="9" cy="9" r="1" fill="#818cf8"/>
-            </svg>
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works" style="padding: 0 24px;">
+
+  <!-- Section 1: Install -->
+  <div style="display: none; flex-direction: column; align-items: center; padding: 80px 0" data-om-label="nasıl çalışır">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555566; display: block; margin-bottom: 12px;">NASIL ÇALIŞIR</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">EKRANINA TAK</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 480px; margin-left: auto; margin-right: auto;">SADIK, ekranında istediğin yere takılır. Kompakt yapısı ve aparatları sayesinde ister dizüstü, ister masaüstü ekranınızla uyum sağlar</p>
+    </div>
+    <div style="width: 100%; max-width: 900px; aspect-ratio: 16/10; border-radius: 24px; background: #111118; border: 1px solid rgba(42,49,59,0.5); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+      <img src="assets/dream_dashboard.png" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.75; position: static">
+    </div>
+  </div>
+
+  <!-- Section 2: Voice -->
+  
+
+  <!-- Section 3: App -->
+  <div style="display: flex; flex-direction: column; align-items: center; padding: 80px 0;">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555566; display: block; margin-bottom: 12px;">PLAN</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">GÜNÜNÜ PLANLA</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 480px; margin-left: auto; margin-right: auto;">Bugünü nasıl planlamak istiyorsan öyle planla. Zaman akışına istediğin blokları yerleştir, SADIK seninle birlikte takip etsin.</p>
+    </div>
+    <div style="width: 100%; max-width: 900px; aspect-ratio: 16/10; border-radius: 24px; background: #111118; border: 1px solid rgba(42,49,59,0.5); overflow: hidden; position: relative; cursor: default;" onMouseEnter="{{ onPlanEnter }}" onMouseLeave="{{ onPlanLeave }}">
+      <video muted="true" loop="true" autoplay="true" playsinline="true" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        <source src="uploads/plan.webm" type="video/webm">
+      </video>
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.2) 40%, transparent 60%); opacity: {{ planHoverOpacity }}; transition: opacity 300ms ease; pointer-events: none;"></div>
+      <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; opacity: {{ planHoverOpacity }}; transition: opacity 300ms ease 80ms; pointer-events: none;">
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Gününü planla</h3>
+        <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Zaman akışına istediğin blokları yerleştir, SADIK seninle birlikte takip etsin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features" style="padding: 80px 24px;">
+  <div style="max-width: 1040px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555566; display: block; margin-bottom: 12px;">UYGULAMA</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Verimli kalmak için ihtiyacın olan her şey</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 500px; margin-left: auto; margin-right: auto;">SADIK ve masaüstü uygulaması birlikte çalışır.</p>
+    </div>
+
+    <div style="display: flex; gap: 32px;">
+      <!-- Tab list -->
+      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 200px; position: relative;">
+        <button onClick="{{ selectTab0 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab0Bg }}; color: {{ tab0Color }}; border: 1px solid {{ tab0Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Görevler</button>
+        <button onClick="{{ selectTab1 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab1Bg }}; color: {{ tab1Color }}; border: 1px solid {{ tab1Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Ajanda</button>
+        <button onClick="{{ selectTab2 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab2Bg }}; color: {{ tab2Color }}; border: 1px solid {{ tab2Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Alışkanlıklar</button>
+        <button onClick="{{ selectTab3 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab3Bg }}; color: {{ tab3Color }}; border: 1px solid {{ tab3Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Çalışma Alanı</button>
+        <button onClick="{{ selectTab4 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab4Bg }}; color: {{ tab4Color }}; border: 1px solid {{ tab4Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Kullanım</button>
+        <button onClick="{{ selectTab5 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab5Bg }}; color: {{ tab5Color }}; border: 1px solid {{ tab5Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Düşünceler</button>
+        <button onClick="{{ selectTab6 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab6Bg }}; color: {{ tab6Color }}; border: 1px solid {{ tab6Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Uzay</button>
+        <button onClick="{{ selectTab7 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab7Bg }}; color: {{ tab7Color }}; border: 1px solid {{ tab7Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Mod</button>
+      </div>
+      <!-- Content area -->
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+        <div id="features-video-container" style="aspect-ratio: 16/10; border-radius: 20px; overflow: hidden; background: #0a0a0f; border: 1px solid rgba(42,49,59,0.5); position: relative; cursor: default;" ref="{{ featureContainerRef }}" onMouseEnter="{{ onFeatureEnter }}" onMouseLeave="{{ onFeatureLeave }}">
+          <video ref="{{ featureVideoRef }}" muted="true" loop="true" playsinline="true" style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.2) 40%, transparent 60%); opacity: {{ featureHoverOpacity }}; transition: opacity 300ms ease; pointer-events: none;"></div>
+          <!-- Görevler -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov0Opacity }};" data-om-label="hover-text-gorevler">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Görevler</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Yeni bir görev oluştur, son teslim tarihini ekle, önceliğini belirle. Merak etme, SADIK seninle birlikte.</p>
           </div>
-          <h3>Sesli Komut &amp; Araç Kullanımı</h3>
-          <p>Türkçe konuş, Sadık görevi yapsın. Görev sil, alışkanlık sorgula, Pomodoro başlat, mod değiştir &mdash; hepsi sesle.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <rect x="2.5" y="2.5" width="13" height="13" rx="3" stroke="#c084fc" stroke-width="1.5"/>
-              <path d="M5.5 9h7M5.5 6h4M5.5 12h5" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+          <!-- Ajanda -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov1Opacity }};" data-om-label="hover-text-ajanda">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Ajanda</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Günlük ve haftalık planını ajanda üzerinden takip et. Etkinliklerini düzenle, hatırlatıcılar al.</p>
           </div>
-          <h3>Takvim &amp; Notion Entegrasyonu</h3>
-          <p>Google Takvim etkinliklerini ve Notion sayfalarını çek, görev listene aktar. Toplantı başlamadan önce bildir.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="M9 2.5L11.5 7l5 .5-3.5 3.5 1 5-4.5-2.5L5 16l1-5L2.5 7.5 7.5 7 9 2.5z" stroke="#fbbf24" stroke-width="1.5" stroke-linejoin="round"/>
-            </svg>
+          <!-- Alışkanlıklar -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov2Opacity }};" data-om-label="hover-text-aliskanliklar">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Alışkanlıklar</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">İster basit bir hatırlatıcı kur, istersen SADIK ile birlikte yeni bir alışkanlık kazan. İstersen de sağlık rutinleri ile daha sağlıklı bir yaşama sahip ol.</p>
           </div>
-          <h3>Davranış Öğrenme (Opt-in)</h3>
-          <p>Uygulama kullanım kalıpların kümelenir, profil çıkarılır, LLM bağlamına enjekte edilir. "Normalde pazartesi sabahları kod yazardın" diyebilsin.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="M9 3v1M9 14v1M3 9H2M16 9h-1M5.05 5.05l-.71-.71M13.66 13.66l-.71-.71M5.05 12.95l-.71.71M13.66 4.34l-.71.71" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="9" cy="9" r="3" stroke="#34d399" stroke-width="1.5"/>
-            </svg>
+          <!-- Çalışma Alanı -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov3Opacity }};" data-om-label="hover-text-calisma">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Çalışma Alanı</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Klasörler, web sayfaları, uygulamalar... Hepsini tek tıkla başlat, istediğin çalışma alanını yarat.</p>
           </div>
-          <h3>Çalışma Modları</h3>
-          <p>Kodlama, Yazarlık, Toplantı, Mola ve daha fazlası. Her mod farklı odak seviyesi ve bildirim kuralı getirir.</p>
+          <!-- Kullanım -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov4Opacity }};" data-om-label="hover-text-kullanim">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Kullanım</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">"Ben bugün ne yaptım ?" "Acaba şu işe ne kadar vakit ayırdım ?" Bu sorulara tüm cevabın burada. Üstelik eğer bilgisayarda yaptığın bir şey çalışırken dikkatını dağıtıyor ise SADIK sana yardımcı olacak.</p>
+          </div>
+          <!-- Düşünceler -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov5Opacity }};" data-om-label="hover-text-dusunceler">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Düşünceler</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Kopyaladığın her şey hafızaya, hafızandakiler notlara dönüşür. Artık SADIK ile kaybolan bilgiler yok.</p>
+          </div>
+          <!-- Uzay -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov6Opacity }};" data-om-label="hover-text-uzay">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Uzay</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Her şeyin başladığı yer. Hayır Big-Bang'den bahsetmiyoruz. Her uzay eşsizdir, uzayını ihtiyacına göre oluştur, yapmak istediklerin birbirine karışmasın.</p>
+          </div>
+          <!-- Mod -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov7Opacity }};" data-om-label="hover-text-mod">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Mod</h3>
+            <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">İster çalış, istersen kodlama yap farketmez. O an ne yapıyorsan ya da ne hissediyorsan o modda ol.</p>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <hr class="divider" />
-
-  <!-- PRIVACY -->
-  <section id="gizlilik" class="privacy-section">
-    <div class="section-inner">
-      <div class="section-label">Gizlilik</div>
-      <h2 class="section-title">Ham verin cloud'a gitmez.</h2>
-      <p class="section-sub">
-        Ses kaydı STT işleminden hemen sonra silinir. Bellek içerikleri, aktivite geçmişi ve uygulama kullanımı yalnızca kendi makinende kalır.
-        Üç hazır preset ile gizlilik seviyeni kendin seç.
-      </p>
-      <div class="privacy-grid">
-        <div class="privacy-tier">
-          <div class="tier-name tier-full">Full</div>
-          <p>Davranış öğrenme ve takvim/Notion entegrasyonu açık. Sadık seni en iyi tanır &mdash; özet veriler opt-in ile cloud'a gider.</p>
-        </div>
-        <div class="privacy-tier">
-          <div class="tier-name tier-hybrid">Hybrid</div>
-          <p>Entegrasyonlar açık, davranış öğrenme kapalı. Anlık sorgular için yeterli bağlam, minimum veri çıkışı.</p>
-        </div>
-        <div class="privacy-tier">
-          <div class="tier-name tier-local">Local-only</div>
-          <p>Hiçbir özet veya bağlam cloud'a gitmez. Yalnızca aktif sesli/yazılı prompt içeriği LLM'e iletilir.</p>
+<!-- ============ PRIVACY ============ -->
+<section style="padding: 80px 24px;">
+  <div style="max-width: 1040px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #6EE7B7; display: block; margin-bottom: 12px;">YEREL YAPAY ZEKA</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Verin sende kalır.</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 520px; margin-left: auto; margin-right: auto;">Yerel bilgisayarında çalışan SADIK sayesinde hiçbir verin buluta ve üçüncü parti taraflar ile paylaşılmaz. Tamamen verin sende kalır, üstelik yapay zekanın nimetlerinden faydalanırken bile</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 800px; margin: 0 auto;">
+      <!-- Kart 1 -->
+      <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 24px;">
+        <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; color: #6EE7B7;">VERI GÜVENLIĞI</div>
+        <p style="font-size: 0.85rem; color: #888899; line-height: 1.6;">SADIK masaüstü uygulamasında ürettiğin tüm veriler sadece senin bilgisayarında kalır, üstelik istediğin an verilerini tek tıkla silebilirsin. Bu sayede tüm sırlarını SADIK ile güven içinde paylaşabilirsin.</p>
+      </div>
+      <!-- Kart 2 -->
+      <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 24px;">
+        <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; color: #FCD34D;">YEREL YAPAY ZEKA</div>
+        <p style="font-size: 0.85rem; color: #888899; line-height: 1.6;">Tamamen isteğe bağlı şekilde aktif olan ve SADIK'ı daha akıllı hale getiren yerel yapay zeka da yine senin bilgisayarında çalışır ve hiçbir yere veri transferi yapmaz.</p>
+      </div>
+      <!-- Kart 3 -->
+      <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 24px;">
+        <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; color: #7DD3FC;">SISTEM GEREKSINIMLERI</div>
+        <p style="font-size: 0.85rem; color: #888899; line-height: 1.6;">Yerel Yapay Zekayı kullanabilmek için tavsiye ettiğimiz sistem gereksinimleri:</p>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 12px;">
+          <span style="padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; background: rgba(125,211,252,0.06); color: #6EE7B7; border: 1px solid rgba(125,211,252,0.2)">8 GB RAM</span>
+          <span style="padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; background: rgba(125,211,252,0.06); color: #FB923C; border: 1px solid rgba(125,211,252,0.2); border-color: #FB923C">6 GB VRAM</span>
+          <span style="padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; background: rgba(125,211,252,0.06); color: #FCD34D; border: 1px solid rgba(125,211,252,0.2); border-color: #FCD34D">10 GB DİSK ALANI</span>
         </div>
       </div>
-      <p style="margin-top:1.25rem; font-size:0.82rem; color:var(--muted);">
-        Her LLM isteğinde ayarlar ekranında canlı önizleme: "şu an şu veriler gidiyor." Redaksiyon katmanı e-posta, telefon ve API anahtarı gibi hassas kalıpları otomatik maskeler.
-      </p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <hr class="divider" />
+<!-- ============ DEVICE ============ -->
+<section style="padding: 80px 24px;">
+  <div style="max-width: 1040px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #FCD34D; display: block; margin-bottom: 12px;">CİHAZ</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Monitöründe canlanan bir yüz</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 520px; margin-left: auto; margin-right: auto;">SADIK ekranının ister yanına ister üstüne aparatları sayesinde -çat diye oturur. Ekranına takıldığı gibi hayat bulur.</p>
+    </div>
+    <!-- Slideshow — full-width horizontal, matching text width -->
+    
+  </div>
+</section>
 
-  <!-- DEVICE -->
-  <section id="cihaz">
-    <div class="section-inner">
-      <div class="section-label">Cihaz</div>
-      <h2 class="section-title">Opsiyonel ESP32 yüz cihazı</h2>
-      <p class="section-sub">
-        SADIK masaüstü uygulamasının yanı sıra, USB bağlantılı bir cihaz da kullanabilirsin.
-        Cihaz olmadan uygulama eksiksiz çalışır.
-      </p>
-      <div class="device-strip">
-        <div class="device-card">
-          <h3>SADIK Mini</h3>
-          <p>0.96&quot; mono OLED ekran. Yüz animasyonları ve durum göstergesi. ESP32 WROOM-32 tabanlı.</p>
+<!-- ============ PRICING ============ -->
+<section id="pricing" style="padding: 80px 24px;">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6EE7B7; margin-bottom: 12px;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
+        İLK PARTİ FİYATLANDIRMASI</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Erken destekçilere özel fiyat</h2>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: stretch; flex-wrap: wrap;">
+    <div style="flex: 1 1 440px; background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; overflow: hidden;">
+      <div style="height: 3px; background: linear-gradient(90deg, #A78BFA, #C084FC, #7DD3FC);"></div>
+
+      <div style="padding: 32px;">
+        <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;">
+          <span style="font-size: 2.8rem; font-weight: 900; letter-spacing: -0.03em; color: #e8e8f0;">{{ currentPrice }}</span>
+          <span style="font-size: 0.95rem; color: #555566; text-decoration: line-through;">{{ originalPrice }}</span>
         </div>
-        <div class="device-card">
-          <h3>SADIK Color</h3>
-          <p>1.8&quot; TFT renkli ekran (160&times;128). Akıcı clip animasyonları. ESP32-S3 N16R8 tabanlı.</p>
+        <p style="font-size: 0.78rem; color: #666677; margin-bottom: 28px;">Tek seferlik ödeme</p>
+
+        
+        <!-- Renk seçimi -->
+        <div style="margin-bottom: 20px;">
+          <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; display: block; margin-bottom: 10px;">Renk</span>
+          <div style="display: flex; gap: 14px; align-items: center;">
+            <button onClick="{{ selectBlack }}" title="Siyah" style="width: 38px; height: 38px; border-radius: 50%; background: #0a0a0f; cursor: pointer; padding: 0; transition: all 150ms; border: 2px solid {{ blackRing }}; box-shadow: {{ blackShadow }};"></button>
+            <button onClick="{{ selectWhite }}" title="Beyaz" style="width: 38px; height: 38px; border-radius: 50%; background: #f5f5f7; cursor: pointer; padding: 0; transition: all 150ms; border: 2px solid {{ whiteRing }}; box-shadow: {{ whiteShadow }};"></button>
+            <span style="font-size: 0.82rem; color: #888899; margin-left: 2px;">{{ colorLabel }}</span>
+          </div>
+        </div>
+
+        <!-- Konum seçimi -->
+        <div style="margin-bottom: 28px;">
+          <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; display: block; margin-bottom: 10px;">Konum</span>
+          <div style="display: flex; gap: 8px;">
+            <button onClick="{{ selectSideMount }}" style="flex: 1; padding: 12px; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 150ms; background: {{ sideMountBg }}; color: {{ sideMountColor }}; border: 1px solid {{ sideMountBorder }};">Yan</button>
+            <button onClick="{{ selectTopMount }}" style="flex: 1; padding: 12px; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 150ms; background: {{ topMountBg }}; color: {{ topMountColor }}; border: 1px solid {{ topMountBorder }};">Üst</button>
+          </div>
+        </div>
+
+        <!-- Features list -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+          
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span style="font-size: 0.85rem; color: #aaaabc;">Ücretsiz kargo ve takip</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span style="font-size: 0.85rem; color: #aaaabc;">Erken erişim ve öncelikli destek</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span style="font-size: 0.85rem; color: #aaaabc;">Windows ve macOS desteği</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span style="font-size: 0.85rem; color: #aaaabc;">Gelecek güncellemeler dahil</span>
+          </div>
+        </div>
+
+        <!-- Batch progress -->
+        <div style="background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.12); border-radius: 14px; padding: 12px 16px; margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-size: 0.72rem; font-weight: 700; color: #A78BFA;">İlk Parti Stoğu</span>
+            <span style="font-size: 0.68rem; color: #666677;">{{ stockRemaining }} / {{ stockTotal }} kaldı</span>
+          </div>
+          <div style="height: 3px; border-radius: 3px; background: rgba(167,139,250,0.12); overflow: hidden;">
+            <div style="height: 100%; border-radius: 3px; background: linear-gradient(90deg, #A78BFA, #C084FC); width: {{ stockBarWidth }};"></div>
+          </div>
+        </div>
+
+        <sc-if value="{{ bothSelected }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; justify-content: center; width: 100%;">
+            <stripe-buy-button buy-button-id="buy_btn_1TncWKDa26V7KDpWezmfhkCB" publishable-key="pk_live_51PaZgKDa26V7KDpWaLmkv8jVQvZt7di2l7iFXVV2Uf6oyT1CGHYAO1BCNVZQ9LkWEYC05EYrYk00cbfw8rLqYXMW00V83bvDPl"></stripe-buy-button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notBothSelected }}" hint-placeholder-val="{{ true }}">
+          <button disabled="true" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: not-allowed; border: 0; background: rgba(167,139,250,0.2); color: rgba(232,232,240,0.45); font-family: inherit;" type="button">Ön sipariş ver</button>
+          <p style="font-size: 0.7rem; color: #FCD34D; text-align: center; margin-top: 10px;">{{ selectionHint }}</p>
+        </sc-if>
+        <p style="font-size: 0.7rem; color: #c5c5c5; text-align: center; margin-top: 10px">Ödeme Stripe altyapısıyla güvenle işlenir.</p>
+      </div>
+    </div>
+
+    <!-- ÜRÜN KARTI — üst görsel, alt metin -->
+    <div style="flex: 1 1 300px; background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
+      <div id="product-media-container" style="flex: 1; min-height: 220px; background: #000; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative;">
+        <img src="sadik_stripe_product_photo-mqyi58yz.png" alt="SADIK Mini" style="width: 100%; height: 100%; max-height: 260px; object-fit: contain; opacity: {{ productImgOpacity }}; transition: opacity 350ms ease;">
+        <video ref="{{ productVideoRef }}" muted="true" loop="true" playsinline="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 24px; opacity: {{ productVideoOpacity }}; transition: opacity 350ms ease; pointer-events: none;"></video>
+      </div>
+      <div style="flex: 1; padding: 20px 28px 28px; display: flex; flex-direction: column; justify-content: flex-start; border-top: 1px solid rgba(42,49,59,0.5);">
+        <div style="display: flex; gap: 10px; margin-bottom: 18px;">
+          <div title="macOS" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 32px; border-radius: 10px; background: rgba(42,49,59,0.45); border: 1px solid rgba(42,49,59,0.7);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#aaaabc"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"></path></svg>
+          </div>
+          <div title="Windows" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 32px; border-radius: 10px; background: rgba(42,49,59,0.45); border: 1px solid rgba(42,49,59,0.7);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#aaaabc"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"></path></svg>
+          </div>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; color: #e8e8f0; margin-bottom: 8px;">SADIK®</h3>
+        <p style="font-size: 0.86rem; color: #888899; line-height: 1.65;">Monitörüne çat diye oturan, bıyıklı dostun. Senin ekranında canlanan ifadelerle gün boyu yanında. Siyah ve beyaz; yan veya üst montaj seçenekleriyle dilediğin kullanım senaryosuna uyum sağlar.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" style="padding: 80px 24px;">
+  <div style="max-width: 680px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555566; display: block; margin-bottom: 12px;">FAQ</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Sıkça sorulan sorular</h2>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 1px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(42,49,59,0.5);">
+      <!-- FAQ 1 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq0 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>SADIK nedir?</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq0Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq0Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">SADIK, istediğiniz ekrana apartaları sayesinde takılıp SADIK masaüstü uygulaması ile birlikte eşzamanlı çalışarak uygulama içerisinde durumlara tepki veren bir ekrana sahip. SADIK,&nbsp;yanı başınızda duran bıyıklı bir dost.</div>
+        </sc-if>
+      </div>
+      <!-- FAQ 2 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq1 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>Hangi platformları destekliyor?</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq1Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq1Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">Windows ve macOS desteklenir. Masaüstü uygulaması her iki platformda da çalışır.</div>
+        </sc-if>
+      </div>
+      <!-- FAQ 3 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq2 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>Cihaz nasıl bağlanıyor?</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq2Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq2Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">SADIK hem kablolu hem de kablosuz bağlantıyı desteklemektedir. Şu an için iki kullanım senaryosunda da type-c kablo ile bir güce bağlanması gereklidir.</div>
+        </sc-if>
+      </div>
+      <!-- FAQ 4 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq3 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>Verilerim güvende mi?</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq3Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq3Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">Evet. Tüm veriler kendi bilgisayarında saklanır. Buluta veri gönderilmez.</div>
+        </sc-if>
+      </div>
+      <!-- FAQ 5 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq4 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>İade politikası nedir?</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq4Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq4Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">Cihaz gönderilmeden önce iptal ederseniz tam iade yapılır.</div>
+        </sc-if>
+      </div>
+      <!-- FAQ 6 -->
+      <div style="background: #111118;">
+        <button onClick="{{ toggleFaq5 }}" style="width: 100%; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; border-bottom: 1px solid rgba(42,49,59,0.3); color: #e8e8f0; cursor: pointer; font-family: inherit; font-size: 0.92rem; font-weight: 600; text-align: left; transition: background 150ms;" style-hover="background: rgba(255,255,255,0.02)">
+          <span>Uygulama Ve Cihaz Güncellemeleri</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ faq5Chevron }}; transition: transform 200ms; flex-shrink: 0; margin-left: 12px;"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{ faq5Open }}">
+          <div style="padding: 0 20px 18px; font-size: 0.85rem; color: #888899; line-height: 1.7; animation: fadeIn 200ms ease-out;">Sadık düzenli olarak gelişen ve güncellenen bir proje. Üstelik geri dönüşlerinizle her geçen gün daha da gelişecek. Uygulamadaki komut penceresine "/geri-bildirim" yazarak karşılaştığınız sorunları, önerilerinizi ve isteklerinizi iletebilirsiniz.</div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section id="roadmap" style="padding: 80px 24px; display: none" data-om-label="yol-haritası">
+  <div style="max-width: 1040px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 44px;">
+      <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #C084FC; display: block; margin-bottom: 12px;">YOL HARİTASI</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Şu an üzerinde çalıştıklarımız</h2>
+      <p style="font-size: 1rem; color: #666677; margin-top: 12px; max-width: 520px; margin-left: auto; margin-right: auto;">Güncel odak alanları — küçük tutuluyor ve ürün ilerledikçe güncelleniyor.</p>
+    </div>
+
+    <!-- Aktif odak -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px;">
+      <div style="width: 30px; height: 30px; border-radius: 9px; background: rgba(167,139,250,0.18); border: 1px solid rgba(167,139,250,0.35); display: flex; align-items: center; justify-content: center;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </div>
+      <h3 style="font-size: 1.05rem; font-weight: 700; color: #e8e8f0;">Aktif odak</h3>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 28px;">
+      <sc-for list="{{ roadmapFocus }}" as="item" hint-placeholder-count="4">
+        <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 16px; padding: 20px 22px;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #e8e8f0; margin-bottom: 6px;">{{ item.title }}</h4>
+          <p style="font-size: 0.84rem; color: #888899; line-height: 1.6;">{{ item.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- Geliştirme aktivitesi -->
+    <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 22px 24px; margin-bottom: 28px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div>
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #6EE7B7; margin-bottom: 6px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+            Geliştirme aktivitesi</span>
+          <p style="font-size: 0.8rem; color: #666677;">macOS ve Windows depoları ayrı izlenir; build nereye gidiyor görebilirsin.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button onClick="{{ roadmapPrev }}" style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.7); color: #aaaabc; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 150ms; font-family: inherit;" style-hover="border-color: rgba(167,139,250,0.5)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <span style="min-width: 128px; text-align: center; font-size: 0.8rem; font-weight: 600; color: #e8e8f0; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.7); border-radius: 9999px; padding: 8px 16px; font-family: 'JetBrains Mono', monospace;">{{ roadmapRangeLabel }}</span>
+          <button onClick="{{ roadmapNext }}" style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.7); color: #aaaabc; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 150ms; font-family: inherit;" style-hover="border-color: rgba(167,139,250,0.5)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
       </div>
-      <p class="device-note">
-        Cihaz USB ile bağlanır; masaüstü uygulaması otomatik algılar. Donanım satışı beta sonrası planlanmaktadır.
-      </p>
-    </div>
-  </section>
 
-  <hr class="divider" />
+      <span style="display: inline-block; font-size: 0.72rem; font-weight: 600; color: #aaaabc; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.7); border-radius: 9999px; padding: 4px 12px; font-family: 'JetBrains Mono', monospace; margin-bottom: 16px;">{{ roadmapTotal }} commit</span>
 
-  <!-- CHANGELOG -->
-  <section>
-    <div class="section-inner" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.5rem;">
-      <div>
-        <div class="section-label">Sürüm Notları</div>
-        <h2 class="section-title" style="margin-bottom:0.4rem;">Changelog</h2>
-        <p style="font-size:0.9rem; color:var(--muted);">Her yeni sürümün değişiklikleri GitHub Releases'ta listelenir.</p>
+      <!-- timeline -->
+      <div style="position: relative; padding-top: 42px;">
+        <!-- milestone markers -->
+        <sc-for list="{{ roadmapMilestones }}" as="m" hint-placeholder-count="3">
+          <div style="position: absolute; top: 0; bottom: 0; left: {{ m.left }}; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; pointer-events: none; z-index: 2;">
+            <div style="text-align: center; white-space: nowrap;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: {{ m.color }};">{{ m.title }} <span style="color: #666677; font-weight: 500;">· {{ m.tag }}</span></div>
+              <div style="font-size: 0.62rem; color: #555566; font-family: 'JetBrains Mono', monospace; margin-top: 1px;">{{ m.date }}</div>
+            </div>
+            <div style="flex: 1; width: 1px; margin-top: 5px; background: linear-gradient(to bottom, {{ m.color }}, rgba(42,49,59,0));"></div>
+          </div>
+        </sc-for>
+
+        <!-- month labels -->
+        <div style="display: flex; margin-bottom: 8px; position: relative; z-index: 1;">
+          <sc-for list="{{ roadmapMonths }}" as="mo" hint-placeholder-count="3">
+            <span style="flex: 1; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; color: #555566;">{{ mo.name }}</span>
+          </sc-for>
+        </div>
+
+        <!-- macOS strip -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600; color: #aaaabc;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#aaaabc"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"></path></svg>
+            macOS</span>
+          <span style="font-size: 0.72rem; color: #666677; font-family: 'JetBrains Mono', monospace;">{{ macTotal }} commit</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 2px; height: 46px; margin-bottom: 18px;">
+          <sc-for list="{{ macBars }}" as="b" hint-placeholder-count="21">
+            <div style="flex: 1; height: {{ b.h }}; background: {{ b.bg }}; border-radius: 2px;"></div>
+          </sc-for>
+        </div>
+
+        <!-- Windows strip -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600; color: #aaaabc;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#aaaabc"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"></path></svg>
+            Windows</span>
+          <span style="font-size: 0.72rem; color: #666677; font-family: 'JetBrains Mono', monospace;">{{ winTotal }} commit</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 2px; height: 46px;">
+          <sc-for list="{{ winBars }}" as="b" hint-placeholder-count="21">
+            <div style="flex: 1; height: {{ b.h }}; background: {{ b.bg }}; border-radius: 2px;"></div>
+          </sc-for>
+        </div>
       </div>
-      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; flex-shrink:0;">
-        <a
-          class="btn btn-secondary"
-          href="https://github.com/ntrch/sadik-releases-win/releases"
-          target="_blank" rel="noopener"
-        >
-          Windows &nbsp;&rarr;
-        </a>
-        <a
-          class="btn btn-secondary"
-          href="https://github.com/ntrch/sadik-releases-mac/releases"
-          target="_blank" rel="noopener"
-        >
-          macOS &nbsp;&rarr;
-        </a>
+    </div>
+
+    <!-- Tamamlananlar -->
+    <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; overflow: hidden;">
+      <button onClick="{{ toggleCompleted }}" style="width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(110,231,183,0.12); border: 1px solid rgba(110,231,183,0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <div style="flex: 1;">
+          <div style="font-size: 1.02rem; font-weight: 700; color: #e8e8f0;">Tamamlananlar</div>
+          <div style="font-size: 0.78rem; color: #666677;">{{ completedCount }} öğe tamamlandı</div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 200ms; transform: {{ completedChevron }};"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <sc-if value="{{ completedOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="padding: 0 22px 8px;">
+          <sc-for list="{{ completedItems }}" as="c" hint-placeholder-count="1">
+            <div style="border-top: 1px solid rgba(42,49,59,0.4); padding: 18px 0;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #666677; font-family: 'JetBrains Mono', monospace;">{{ c.date }}</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.66rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px; background: rgba(110,231,183,0.1); color: #6EE7B7; border: 1px solid rgba(110,231,183,0.3);">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Tamamlandı</span>
+              </div>
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: #e8e8f0; margin-bottom: 5px;">{{ c.title }}</h4>
+              <p style="font-size: 0.84rem; color: #888899; line-height: 1.6;">{{ c.desc }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer style="padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; font-size: 0.82rem; color: #555566; border-top: 1px solid rgba(42,49,59,0.3); max-width: 1040px; margin: 0 auto;">
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <img src="assets/sadik-mark.png" alt="" style="width: 18px; height: 18px; border-radius: 4px;">
+    <span>© 2026 SADIK</span>
+  </div>
+  <div style="display: flex; gap: 24px;">
+    <a href="#pricing" style="color: #555566; text-decoration: none; transition: color 150ms;" style-hover="color: #e8e8f0">Fiyatlandırma</a>
+    <a href="#faq" style="color: #555566; text-decoration: none; transition: color 150ms;" style-hover="color: #e8e8f0">FAQ</a>
+    <a href="#roadmap" style="color: #555566; text-decoration: none; transition: color 150ms;" style-hover="color: #e8e8f0">Yol Haritası</a>
+    <a href="#" style="color: #555566; text-decoration: none; transition: color 150ms;" style-hover="color: #e8e8f0">İletişim</a>
+  </div>
+</footer>
+
+<!-- ============ PURCHASE MODAL ============ -->
+<sc-if value="{{ showPurchaseModal }}">
+  <div style="position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 200ms ease-out;" onClick="{{ closePurchaseBackdrop }}">
+    <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; position: relative;" onClick="{{ stopProp }}">
+
+      <button onClick="{{ closePurchase }}" style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.5); color: #888899; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 150ms;" style-hover="background: rgba(255,255,255,0.08); color: #e8e8f0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div style="padding: 24px 24px 0; display: flex; align-items: center; gap: 6px;">
+        <sc-for list="{{ purchaseSteps }}" as="ps">
+          <div style="flex: 1; height: 3px; border-radius: 3px; background: {{ ps.bg }}; transition: background 300ms;"></div>
+        </sc-for>
       </div>
-    </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>&copy; 2026 SADIK</span>
-    <div class="footer-links">
-      <a href="mailto:eeren7495@gmail.com">eeren7495@gmail.com</a>
-      <a href="https://github.com/ntrch/sadik-releases" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://github.com/ntrch/sadik-releases-win/releases" target="_blank" rel="noopener">Windows Sürümler</a>
-      <a href="https://github.com/ntrch/sadik-releases-mac/releases" target="_blank" rel="noopener">macOS Sürümler</a>
-    </div>
-  </footer>
+      <!-- STEP 1: Cart -->
+      <sc-if value="{{ isStep1 }}">
+        <div style="padding: 24px; animation: fadeIn 200ms ease-out;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem;">Sepet</h3>
+          <div style="background: #18181f; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 20px; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+              <div style="width: 56px; height: 56px; border-radius: 14px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.25); flex-shrink: 0;">
+                <img src="assets/sadik-mark.png" alt="" style="width: 32px; height: 32px;">
+              </div>
+              <div style="flex: 1;">
+                <p style="font-size: 0.95rem; font-weight: 700;">SADIK Mini</p>
+                <p style="font-size: 0.78rem; color: #888899;">{{ mountTypeLabel }}</p>
+              </div>
+              <span style="font-size: 1rem; font-weight: 700; color: #A78BFA;">{{ currentPrice }}</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(42,49,59,0.5);">
+              <span style="font-size: 0.82rem; color: #888899;">Adet</span>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button onClick="{{ decreaseQty }}" style="width: 30px; height: 30px; border-radius: 8px; background: #1f1f2a; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-family: inherit;">-</button>
+                <span style="font-size: 0.92rem; font-weight: 700; min-width: 20px; text-align: center; font-family: 'JetBrains Mono', monospace;">{{ quantity }}</span>
+                <button onClick="{{ increaseQty }}" style="width: 30px; height: 30px; border-radius: 8px; background: #1f1f2a; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-family: inherit;">+</button>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 14px 18px; background: rgba(167,139,250,0.05); border-radius: 14px; border: 1px solid rgba(167,139,250,0.1);">
+            <span style="font-size: 0.92rem; font-weight: 600;">Toplam</span>
+            <span style="font-size: 1.15rem; font-weight: 900; color: #A78BFA; font-family: 'JetBrains Mono', monospace;">{{ totalPrice }}</span>
+          </div>
+          <button onClick="{{ goToStep2 }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit;" style-hover="opacity: 0.88">Devam et</button>
+        </div>
+      </sc-if>
 
+      <!-- STEP 2: Shipping -->
+      <sc-if value="{{ isStep2 }}">
+        <div style="padding: 24px; animation: fadeIn 200ms ease-out;">
+          <button onClick="{{ goToStep1 }}" style="display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: #888899; cursor: pointer; font-family: inherit; font-size: 0.78rem; margin-bottom: 1rem; padding: 0; transition: color 150ms;" style-hover="color: #e8e8f0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            Geri
+          </button>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem;">Teslimat bilgileri</h3>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Ad</label>
+                <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+              </div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Soyad</label>
+                <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+              </div>
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">E-posta</label>
+              <input type="email" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Adres</label>
+              <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Şehir</label>
+                <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+              </div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Posta kodu</label>
+                <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+              </div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Ülke</label>
+                <input type="text" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: inherit; transition: border-color 150ms;" style-focus="border-color: #A78BFA">
+              </div>
+            </div>
+          </div>
+          <button onClick="{{ goToStep3 }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit;" style-hover="opacity: 0.88">Ödemeye geç</button>
+        </div>
+      </sc-if>
+
+      <!-- STEP 3: Payment -->
+      <sc-if value="{{ isStep3 }}">
+        <div style="padding: 24px; animation: fadeIn 200ms ease-out;">
+          <button onClick="{{ goToStep2 }}" style="display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: #888899; cursor: pointer; font-family: inherit; font-size: 0.78rem; margin-bottom: 1rem; padding: 0; transition: color 150ms;" style-hover="color: #e8e8f0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            Geri
+          </button>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem;">Ödeme</h3>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem;">
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Kart numarası</label>
+              <div style="display: flex; align-items: center; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); border-radius: 14px; padding: 0 14px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" style="flex: 1; padding: 11px 10px; font-size: 0.88rem; background: transparent; border: none; color: #e8e8f0; outline: none; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;">
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Son kullanma</label>
+                <input type="text" placeholder="MM / YY" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: 'JetBrains Mono', monospace;" style-focus="border-color: #A78BFA">
+              </div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">CVC</label>
+                <input type="text" placeholder="123" style="width: 100%; padding: 11px 14px; border-radius: 14px; font-size: 0.88rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: 'JetBrains Mono', monospace;" style-focus="border-color: #A78BFA">
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(167,139,250,0.05); border-radius: 14px; padding: 16px; margin-bottom: 1.5rem; border: 1px solid rgba(167,139,250,0.1);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-size: 0.82rem; color: #888899;">Ara toplam</span>
+              <span style="font-size: 0.82rem; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ totalPrice }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-size: 0.82rem; color: #888899;">Kargo</span>
+              <span style="font-size: 0.82rem; font-weight: 600; color: #6EE7B7;">Ücretsiz</span>
+            </div>
+            <div style="border-top: 1px solid rgba(167,139,250,0.12); padding-top: 8px; display: flex; justify-content: space-between;">
+              <span style="font-size: 0.92rem; font-weight: 700;">Toplam</span>
+              <span style="font-size: 1.05rem; font-weight: 900; color: #A78BFA; font-family: 'JetBrains Mono', monospace;">{{ totalPrice }}</span>
+            </div>
+          </div>
+          <button onClick="{{ processPayment }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;" style-hover="opacity: 0.88">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Öde {{ totalPrice }}
+          </button>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666677" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span style="font-size: 0.68rem; color: #666677;">Stripe ile güvenli ödeme</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- STEP 4: Processing -->
+      <sc-if value="{{ isStep4 }}">
+        <div style="padding: 48px 24px; text-align: center; animation: fadeIn 200ms ease-out;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; border: 3px solid rgba(42,49,59,0.5); border-top-color: #A78BFA; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">Ödeme işleniyor...</h3>
+          <p style="font-size: 0.85rem; color: #888899;">Lütfen bekleyin.</p>
+        </div>
+      </sc-if>
+
+      <!-- STEP 5: Confirmation -->
+      <sc-if value="{{ isStep5 }}">
+        <div style="padding: 32px 24px; text-align: center; animation: fadeIn 300ms ease-out;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(110,231,183,0.1); border: 2px solid rgba(110,231,183,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" style="stroke-dasharray: 24; animation: checkmark 600ms ease-out forwards;"></polyline></svg>
+          </div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">Sipariş onaylandı!</h3>
+          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Siparişin başarıyla oluşturuldu.</p>
+          <div style="background: #000; border: 1px solid rgba(167,139,250,0.25); border-radius: 14px; padding: 20px; margin-bottom: 1.5rem; box-shadow: 0 0 16px rgba(167,139,250,0.08);">
+            <p style="font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #666677; margin-bottom: 6px;">Sipariş / Aktivasyon Kodu</p>
+            <p style="font-size: 1.4rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; color: #A78BFA;">{{ orderCode }}</p>
+          </div>
+          <p style="font-size: 0.78rem; color: #888899; margin-bottom: 1.5rem;">Bu kodu kaydedin — uygulamayı aktive etmek için kullanacaksınız.</p>
+          <button onClick="{{ goToActivation }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit;" style-hover="opacity: 0.88">Uygulamayı aktive et</button>
+        </div>
+      </sc-if>
+
+      <!-- STEP 6: Activation -->
+      <sc-if value="{{ isStep6 }}">
+        <div style="padding: 32px 24px; animation: fadeIn 200ms ease-out;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; text-align: center;">Ürün aktivasyonu</h3>
+          <p style="font-size: 0.85rem; color: #888899; text-align: center; margin-bottom: 2rem;">Sipariş kodunuzu girerek uygulamayı aktive edin.</p>
+          <div style="margin-bottom: 1.5rem;">
+            <label style="font-size: 0.72rem; font-weight: 600; color: #888899; margin-bottom: 4px; display: block;">Aktivasyon kodu</label>
+            <input type="text" placeholder="SADIK-XXXX-XXXX" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 1rem; background: #1a1a24; border: 1px solid rgba(42,49,59,0.5); color: #e8e8f0; outline: none; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-align: center;" style-focus="border-color: #A78BFA">
+          </div>
+          <button onClick="{{ activateCode }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit;" style-hover="opacity: 0.88">Aktive et</button>
+        </div>
+      </sc-if>
+
+      <!-- STEP 7: Download -->
+      <sc-if value="{{ isStep7 }}">
+        <div style="padding: 32px 24px; text-align: center; animation: fadeIn 300ms ease-out;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(167,139,250,0.1); border: 2px solid rgba(167,139,250,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; animation: pulse-glow 2s ease-in-out infinite;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">İndirmeye hazır!</h3>
+          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Aktivasyon tamamlandı. İşletim sistemine uygun sürümü indir.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="https://github.com/ntrch/sadik_v2/releases" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; font-size: 0.92rem; font-weight: 700; border: 0; background: #A78BFA; color: #fff; text-decoration: none;" style-hover="opacity: 0.88">Windows için indir</a>
+            <a href="https://github.com/ntrch/sadik_v2/releases" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; font-size: 0.92rem; font-weight: 700; border: 1px solid rgba(42,49,59,0.5); background: transparent; color: #e8e8f0; text-decoration: none;" style-hover="border-color: rgba(167,139,250,0.3)">macOS için indir</a>
+          </div>
+          <p style="font-size: 0.7rem; color: #555566; margin-top: 1.5rem;">İndirme en son sürümü getirir.</p>
+          <button onClick="{{ closePurchase }}" style="margin-top: 12px; padding: 10px 20px; border-radius: 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #666677; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0">Kapat</button>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</sc-if>
+
+
+<!-- ============ ORDER SUCCESS MODAL (Stripe redirect) ============ -->
+<sc-if value="{{ showSuccessModal }}">
+  <div style="position: fixed; inset: 0; z-index: 220; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 200ms ease-out;" onClick="{{ closeSuccessBackdrop }}">
+    <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; width: 100%; max-width: 480px; position: relative; padding: 40px 32px; text-align: center;" onClick="{{ stopProp }}">
+      <button onClick="{{ closeSuccess }}" style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(42,49,59,0.5); color: #888899; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 150ms;" style-hover="background: rgba(255,255,255,0.08); color: #e8e8f0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(110,231,183,0.1); border: 2px solid rgba(110,231,183,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" style="stroke-dasharray: 24; animation: checkmark 600ms ease-out forwards;"></polyline></svg>
+      </div>
+      <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Siparişin alındı!</h3>
+      <p style="font-size: 0.88rem; color: #888899; margin-bottom: 1.5rem; line-height: 1.6;">Ödemen başarıyla tamamlandı. SADIK yola çıkmaya hazırlanıyor — detaylar e-postana gönderildi.</p>
+      <div style="background: #000; border: 1px solid rgba(167,139,250,0.25); border-radius: 14px; padding: 18px; margin-bottom: 1.25rem; box-shadow: 0 0 16px rgba(167,139,250,0.08);">
+        <p style="font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #666677; margin-bottom: 6px;">Sipariş / Aktivasyon Kodu</p>
+        <p style="font-size: 1.4rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; color: #A78BFA;">{{ orderCode }}</p>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.74rem; color: #6EE7B7; margin-bottom: 1.5rem;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
+        Batch 1 stoğu güncellendi — {{ stockRemaining }} / {{ stockTotal }} kaldı
+      </div>
+      <button onClick="{{ closeSuccess }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit;" style-hover="opacity: 0.88">Harika!</button>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1280px&quot;,&quot;height&quot;:&quot;900px&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;tr&quot;,&quot;en&quot;],&quot;default&quot;:&quot;tr&quot;},&quot;showDeviceSection&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;section&quot;:&quot;Sections&quot;}}">
+
+class Component extends DCLogic {
+  state = {
+    lang: 'tr',
+    color: null,
+    mountType: null,
+    quantity: 1,
+    showPurchaseModal: false,
+    featureHover: false,
+    planHover: false,
+    deviceSlideIdx: 0,
+    purchaseStep: 1,
+    activeFeatureIdx: 0,
+    openFaqIdx: -1,
+    orderCode: '',
+    activeModeIdx: -1,
+    currentGif: 'uploads/idle-1.gif',
+    gifMode: 'idle',
+    stockSold: 20,
+    showSuccessModal: false,
+    roadmapRangeIdx: 1,
+    completedOpen: true,
+  };
+
+  prices = {
+    tr: { price: 2499, original: 4999, currency: '₺', format: (n) => n.toLocaleString('tr-TR') + ' ₺' },
+    en: { price: 89.99, original: 199, currency: '$', format: (n) => '$' + n.toFixed(2) },
+  };
+
+  featureVideos = [
+    'uploads/görevler.webm', 'uploads/ajanda.webm', 'uploads/alışkanlıklar.webm',
+    'uploads/çalışma-alanı.webm', 'uploads/kullanım.webm', 'uploads/düşünceler.webm',
+    'uploads/uzay.webm', 'uploads/mod.webm',
+  ];
+
+  featureTitles = [
+    'Görev yönetimi', 'Ajanda', 'Alışkanlık takibi', 'Çalışma alanı',
+    'Kullanım istatistikleri', 'Düşünceler', 'Uzay', 'Mod',
+  ];
+
+  featureDescs = [
+    'Yeni bir görev oluştur, son teslim tarihini ekle, önceliğini belirle. Merak etme, SADIK seninle birlikte.',
+    'Günlük ve haftalık planını ajanda üzerinden takip et. Etkinliklerini düzenle, hatırlatıcılar al.',
+    'Alışkanlıklarını oluştur ve günlük olarak takip et. İlerleme grafiklerinle motivasyonunu yüksek tut.',
+    'Çalışma alanını kişiselleştir. Pomodoro, görevler ve notların tek bir ekranda.',
+    'Günlük ekran süren ve uygulama kullanımını takip et. Dijital alışkanlıklarını analiz et.',
+    'Aklına gelen her şeyi hızlıca not al. Düşüncelerini kategorize et ve düzenle.',
+    'Odaklanma modunda uzay temalı ortamda çalış. Dikkat dağıtıcıları engelle.',
+    'Çalışma modunu değiştir — kodlama, toplantı, mola veya odaklanma. SADIK moduna göre adapte olur.',
+  ];
+
+  // GIF idle/blink loop
+  idleSequence = [
+    { src: 'uploads/blink-1.gif', duration: 1400 },
+    { src: 'uploads/idle-1.gif', duration: 2000 },
+    { src: 'uploads/blink-2.gif', duration: 1400 },
+    { src: 'uploads/idle-2.gif', duration: 2000 },
+  ];
+  idleIdx = 0;
+  _gifTimer = null;
+
+  buttonGifs = {
+    kodlama: 'uploads/codding.gif',
+    mola: 'uploads/break.gif',
+    onay: 'uploads/confirming.gif',
+    bildirim: 'uploads/notify.gif',
+  };
+  buttonGifDurations = {
+    kodlama: 4000,
+    mola: 4000,
+    onay: 3000,
+    bildirim: 3000,
+  };
+
+  fbDefs = [
+    { key: 'kodlama', color: '#7DD3FC' },
+    { key: 'mola', color: '#6EE7B7' },
+    { key: 'onay', color: '#A78BFA' },
+    { key: 'bildirim', color: '#FCD34D' },
+  ];
+
+  deviceSlideImages = [
+    'assets/dream_dashboard.png',
+    'assets/dream_habits.png',
+    'assets/dream_dashboard.png',
+  ];
+  _deviceSlideTimer = null;
+
+  _startDeviceSlideshow() {
+    this._deviceSlideTimer = setInterval(() => {
+      this.setState(s => ({
+        deviceSlideIdx: (s.deviceSlideIdx + 1) % this.deviceSlideImages.length,
+      }));
+    }, 4000);
+  }
+
+  _stopDeviceSlideshow() {
+    if (this._deviceSlideTimer) { clearInterval(this._deviceSlideTimer); this._deviceSlideTimer = null; }
+  }
+
+  stockTotal = 200;
+  _stockKey = 'sadik_batch1_sold';
+  _baselineSold = 20; // başlangıç: 180/200 kaldı
+
+  _getSold() {
+    const raw = localStorage.getItem(this._stockKey);
+    const n = raw == null ? this._baselineSold : parseInt(raw, 10);
+    return isNaN(n) ? this._baselineSold : Math.min(n, this.stockTotal);
+  }
+
+  componentDidMount() {
+    this._startIdleLoop();
+    this._startDeviceSlideshow();
+    this.setState({ stockSold: this._getSold() });
+    this._checkPaymentSuccess();
+  }
+
+  _checkPaymentSuccess() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true' || params.get('session_id')) {
+      // Aynı redirect'in sayım tekrarını önle (session_id varsa onunla, yoksa tek seferlik)
+      const sid = params.get('session_id') || 'success-' + Date.now();
+      const seenKey = 'sadik_seen_' + sid;
+      let newSold = this._getSold();
+      if (!localStorage.getItem(seenKey)) {
+        newSold = Math.min(newSold + 1, this.stockTotal);
+        localStorage.setItem(this._stockKey, String(newSold));
+        localStorage.setItem(seenKey, '1');
+      }
+      this.setState({ stockSold: newSold, showSuccessModal: true, orderCode: this.generateOrderCode() });
+      // URL'i temizle ki yenilemede tekrar açılmasın
+      window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+    }
+  }
+
+  componentWillUnmount() {
+    this._clearGifTimer();
+    this._stopDeviceSlideshow();
+    if (this._featureScrollObserver) this._featureScrollObserver.disconnect();
+  }
+
+  _clearGifTimer() {
+    if (this._gifTimer) { clearTimeout(this._gifTimer); this._gifTimer = null; }
+  }
+
+  _gifImgRef = React.createRef();
+  _actionClickCount = 0;
+
+  _setGifSrc(src) {
+    const el = this._gifImgRef.current;
+    if (el) el.src = src;
+  }
+
+  _startIdleLoop() {
+    this._clearGifTimer();
+    this.idleIdx = 0;
+    const step = this.idleSequence[0];
+    this._setGifSrc(step.src);
+    this.setState({ gifMode: 'idle', activeModeIdx: -1 });
+    this._scheduleNextIdle();
+  }
+
+  _scheduleNextIdle() {
+    const step = this.idleSequence[this.idleIdx];
+    this._gifTimer = setTimeout(() => {
+      this.idleIdx = (this.idleIdx + 1) % this.idleSequence.length;
+      const next = this.idleSequence[this.idleIdx];
+      this._setGifSrc(next.src);
+      this._scheduleNextIdle();
+    }, step.duration);
+  }
+
+  _playActionGif(key, idx) {
+    this._clearGifTimer();
+    const src = this.buttonGifs[key];
+    const dur = this.buttonGifDurations[key];
+    this._actionClickCount++;
+    this._setGifSrc(src + '#' + this._actionClickCount);
+    this.setState({ gifMode: key, activeModeIdx: idx });
+    this._gifTimer = setTimeout(() => {
+      this._startIdleLoop();
+    }, dur);
+  }
+
+  _featureVideoRef = React.createRef();
+  _featureContainerRef = React.createRef();
+  _productVideoRef = React.createRef();
+
+  _productVideoSrc() {
+    const { color, mountType } = this.state;
+    if (!color || !mountType) return null;
+    const c = color === 'black' ? 'siyah' : 'beyaz';
+    const m = mountType === 'top' ? 'üst' : 'yan';
+    return 'uploads/' + c + '-' + m + '.webm';
+  }
+
+  _loadProductVideo() {
+    const container = document.getElementById('product-media-container');
+    const vid = container ? container.querySelector('video') : null;
+    if (!vid) return;
+    const src = this._productVideoSrc();
+    if (!src) return;
+    if (vid.getAttribute('data-src') !== src) {
+      vid.src = src;
+      vid.setAttribute('data-src', src);
+      vid.load();
+    }
+    vid.play().catch(() => {});
+  }
+  _featureScrollObserver = null;
+  _featureVideoVisible = true;
+  _featureVideoInited = false;
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this._featureVideoInited) {
+      const vid = this._getFeatureVideo();
+      if (vid) {
+        this._featureVideoInited = true;
+        this._loadFeatureVideo();
+        this._setupFeatureObserver();
+      }
+    }
+    if (prevState.activeFeatureIdx !== this.state.activeFeatureIdx) {
+      this._loadFeatureVideo();
+    }
+    if (prevState.color !== this.state.color || prevState.mountType !== this.state.mountType) {
+      this._loadProductVideo();
+    }
+  }
+
+  _getFeatureVideo() {
+    const container = document.getElementById('features-video-container');
+    return container ? container.querySelector('video') : null;
+  }
+
+  _loadFeatureVideo(forceIdx) {
+    const idx = forceIdx !== undefined ? forceIdx : this.state.activeFeatureIdx;
+    const video = this.featureVideos[idx];
+    const vid = this._getFeatureVideo();
+    if (vid && video) {
+      vid.src = video;
+      vid.load();
+      vid.play().catch(() => {});
+    }
+  }
+
+  _setupFeatureObserver() {
+    if (this._featureScrollObserver) this._featureScrollObserver.disconnect();
+    const container = document.getElementById('features-video-container');
+    const vid = this._getFeatureVideo();
+    if (!vid || !container) return;
+
+    this._featureScrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        this._featureVideoVisible = entry.isIntersecting;
+        const v = this._getFeatureVideo();
+        if (v) {
+          if (entry.isIntersecting) { v.play().catch(() => {}); }
+          else { v.pause(); }
+        }
+      });
+    }, { threshold: 0.3 });
+    this._featureScrollObserver.observe(container);
+  }
+
+  generateOrderCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = 'SADIK-';
+    for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    code += '-';
+    for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+
+  renderVals() {
+    const { lang, mountType, quantity, showPurchaseModal, purchaseStep, activeFeatureIdx, openFaqIdx, activeModeIdx } = this.state;
+    const p = this.prices[lang];
+
+    const currentPrice = p.format(p.price);
+    const originalPrice = p.format(p.original);
+    const totalPrice = p.format(p.price * quantity);
+
+    // Feature tab styles & handlers
+    const tabVals = {};
+    for (let i = 0; i < 8; i++) {
+      const active = activeFeatureIdx === i;
+      tabVals['tab' + i + 'Bg'] = active ? 'rgba(167,139,250,0.12)' : 'transparent';
+      tabVals['tab' + i + 'Color'] = active ? '#A78BFA' : '#666677';
+      tabVals['tab' + i + 'Border'] = active ? 'rgba(167,139,250,0.3)' : 'transparent';
+      const idx = i;
+      tabVals['selectTab' + i] = () => { this.setState({ activeFeatureIdx: idx }); setTimeout(() => this._loadFeatureVideo(idx), 50); };
+    }
+
+    // FAQ toggles
+    const faqVals = {};
+    for (let i = 0; i < 6; i++) {
+      const idx = i;
+      faqVals['faq' + i + 'Open'] = openFaqIdx === idx;
+      faqVals['faq' + i + 'Chevron'] = openFaqIdx === idx ? 'rotate(180deg)' : 'rotate(0)';
+      faqVals['toggleFaq' + i] = () => this.setState({ openFaqIdx: openFaqIdx === idx ? -1 : idx });
+    }
+
+    // Face button styles & handlers
+    const fbVals = {};
+    this.fbDefs.forEach((def, i) => {
+      fbVals['fb' + i + 'Bg'] = activeModeIdx === i ? def.color + '20' : 'rgba(255,255,255,0.04)';
+      fbVals['fb' + i + 'Color'] = activeModeIdx === i ? def.color : '#888899';
+      fbVals['fb' + i + 'Border'] = activeModeIdx === i ? def.color + '50' : 'rgba(42,49,59,0.5)';
+      const idx = i;
+      fbVals['onFb' + i + 'Click'] = () => this._playActionGif(def.key, idx);
+    });
+
+    // Face dot indicators (keep as array for sc-for — no text)
+    const faceIndicators = this.fbDefs.map((def, i) => ({
+      bg: activeModeIdx === i ? def.color : 'transparent',
+      borderStyle: activeModeIdx === i ? 'none' : '2px solid #555566',
+      scale: activeModeIdx === i ? 'scale(1.3)' : 'scale(1)',
+    }));
+
+    const purchaseSteps = [1,2,3,4,5].map(s => ({
+      bg: purchaseStep >= s ? '#A78BFA' : 'rgba(42,49,59,0.5)',
+    }));
+
+    return {
+      ...tabVals,
+      ...faqVals,
+      ...fbVals,
+
+      langLabel: lang === 'tr' ? 'EN' : 'TR',
+      toggleLang: () => this.setState({ lang: lang === 'tr' ? 'en' : 'tr' }),
+      scrollToTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+      scrollToHowItWorks: () => {
+        const el = document.getElementById('how-it-works');
+        if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+      },
+
+      featureTitle: this.featureTitles[activeFeatureIdx] || this.featureTitles[0],
+      featureDesc: this.featureDescs[activeFeatureIdx] || this.featureDescs[0],
+
+      stockTotal: this.stockTotal,
+      stockRemaining: this.stockTotal - (this.state.stockSold ?? this._baselineSold),
+      stockBarWidth: (((this.state.stockSold ?? this._baselineSold) / this.stockTotal) * 100).toFixed(1) + '%',
+      showSuccessModal: this.state.showSuccessModal,
+      closeSuccess: () => this.setState({ showSuccessModal: false }),
+      closeSuccessBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ showSuccessModal: false }); },
+
+      currentPrice,
+      originalPrice,
+      totalPrice,
+      quantity,
+      mountTypeLabel: mountType === 'side' ? 'Yan montaj' : mountType === 'top' ? 'Üst montaj' : 'Konum seçilmedi',
+
+      // Renk seçimi
+      blackRing: this.state.color === 'black' ? '#A78BFA' : 'rgba(42,49,59,0.8)',
+      blackShadow: this.state.color === 'black' ? '0 0 0 3px rgba(167,139,250,0.3)' : 'none',
+      whiteRing: this.state.color === 'white' ? '#A78BFA' : 'rgba(42,49,59,0.8)',
+      whiteShadow: this.state.color === 'white' ? '0 0 0 3px rgba(167,139,250,0.3)' : 'none',
+      colorLabel: this.state.color === 'black' ? 'Siyah' : this.state.color === 'white' ? 'Beyaz' : 'Renk seç',
+      selectBlack: () => { this.setState({ color: 'black' }); setTimeout(() => this._loadProductVideo(), 60); },
+      selectWhite: () => { this.setState({ color: 'white' }); setTimeout(() => this._loadProductVideo(), 60); },
+
+      // Ön sipariş butonu aktiflik durumu
+      bothSelected: !!(this.state.color && mountType),
+      notBothSelected: !(this.state.color && mountType),
+      selectionHint: (!this.state.color && !mountType) ? 'Lütfen renk ve konum seçin' : (!this.state.color ? 'Lütfen bir renk seçin' : 'Lütfen bir konum seçin'),
+
+      sideMountBg: mountType === 'side' ? 'rgba(167,139,250,0.12)' : 'rgba(42,49,59,0.2)',
+      sideMountColor: mountType === 'side' ? '#A78BFA' : '#666677',
+      sideMountBorder: mountType === 'side' ? 'rgba(167,139,250,0.3)' : 'rgba(42,49,59,0.5)',
+      topMountBg: mountType === 'top' ? 'rgba(167,139,250,0.12)' : 'rgba(42,49,59,0.2)',
+      topMountColor: mountType === 'top' ? '#A78BFA' : '#666677',
+      topMountBorder: mountType === 'top' ? 'rgba(167,139,250,0.3)' : 'rgba(42,49,59,0.5)',
+
+      selectSideMount: () => { this.setState({ mountType: 'side' }); setTimeout(() => this._loadProductVideo(), 60); },
+      selectTopMount: () => { this.setState({ mountType: 'top' }); setTimeout(() => this._loadProductVideo(), 60); },
+
+      productVideoRef: this._productVideoRef,
+      productImgOpacity: (this.state.color && mountType) ? '0' : '1',
+      productVideoOpacity: (this.state.color && mountType) ? '1' : '0',
+
+      faceIndicators,
+      gifImgRef: this._gifImgRef,
+      featureVideoRef: this._featureVideoRef,
+      featureContainerRef: this._featureContainerRef,
+
+      featureHoverOpacity: this.state.featureHover ? '1' : '0',
+      ov0Opacity: (activeFeatureIdx === 0 && this.state.featureHover) ? '1' : '0',
+      ov1Opacity: (activeFeatureIdx === 1 && this.state.featureHover) ? '1' : '0',
+      ov2Opacity: (activeFeatureIdx === 2 && this.state.featureHover) ? '1' : '0',
+      ov3Opacity: (activeFeatureIdx === 3 && this.state.featureHover) ? '1' : '0',
+      ov4Opacity: (activeFeatureIdx === 4 && this.state.featureHover) ? '1' : '0',
+      ov5Opacity: (activeFeatureIdx === 5 && this.state.featureHover) ? '1' : '0',
+      ov6Opacity: (activeFeatureIdx === 6 && this.state.featureHover) ? '1' : '0',
+      ov7Opacity: (activeFeatureIdx === 7 && this.state.featureHover) ? '1' : '0',
+      onFeatureEnter: () => this.setState({ featureHover: true }),
+      onFeatureLeave: () => this.setState({ featureHover: false }),
+
+      planHoverOpacity: this.state.planHover ? '1' : '0',
+      onPlanEnter: () => this.setState({ planHover: true }),
+      onPlanLeave: () => this.setState({ planHover: false }),
+
+      deviceSlides: this.deviceSlideImages.map((src, i) => ({
+        src,
+        opacity: i === this.state.deviceSlideIdx ? '1' : '0',
+      })),
+      deviceSlideDots: this.deviceSlideImages.map((_, i) => ({
+        bg: i === this.state.deviceSlideIdx ? '#FCD34D' : 'rgba(255,255,255,0.2)',
+        scale: i === this.state.deviceSlideIdx ? 'scale(1.3)' : 'scale(1)',
+        onClick: () => {
+          this._stopDeviceSlideshow();
+          this.setState({ deviceSlideIdx: i });
+          this._startDeviceSlideshow();
+        },
+      })),
+
+      showPurchaseModal,
+      purchaseSteps,
+      isStep1: purchaseStep === 1,
+      isStep2: purchaseStep === 2,
+      isStep3: purchaseStep === 3,
+      isStep4: purchaseStep === 4,
+      isStep5: purchaseStep === 5,
+      isStep6: purchaseStep === 6,
+      isStep7: purchaseStep === 7,
+      orderCode: this.state.orderCode,
+
+      openPurchase: () => { window.open('https://buy.stripe.com/fZu8wPeVd3Go02r2LA4wM01', '_blank'); },
+      closePurchase: () => this.setState({ showPurchaseModal: false, purchaseStep: 1 }),
+      closePurchaseBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ showPurchaseModal: false, purchaseStep: 1 }); },
+      stopProp: (e) => e.stopPropagation(),
+
+      goToStep1: () => this.setState({ purchaseStep: 1 }),
+      goToStep2: () => this.setState({ purchaseStep: 2 }),
+      goToStep3: () => this.setState({ purchaseStep: 3 }),
+      processPayment: () => {
+        this.setState({ purchaseStep: 4 });
+        setTimeout(() => {
+          this.setState({ purchaseStep: 5, orderCode: this.generateOrderCode() });
+        }, 2500);
+      },
+      goToActivation: () => this.setState({ purchaseStep: 6 }),
+      activateCode: () => this.setState({ purchaseStep: 7 }),
+
+      increaseQty: () => this.setState(s => ({ quantity: Math.min(s.quantity + 1, 5) })),
+      decreaseQty: () => this.setState(s => ({ quantity: Math.max(s.quantity - 1, 1) })),
+    };
+  }
+}
+
+</script>
 </body>
 </html>
