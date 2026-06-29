@@ -777,15 +777,13 @@
       <sc-if value="{{ isStep7 }}">
         <div style="padding: 32px 24px; text-align: center; animation: fadeIn 300ms ease-out;">
           <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(167,139,250,0.1); border: 2px solid rgba(167,139,250,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; animation: pulse-glow 2s ease-in-out infinite;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
           </div>
-          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">İndirmeye hazır!</h3>
-          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Aktivasyon tamamlandı. İşletim sistemine uygun sürümü indir.</p>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <a href="https://github.com/ntrch/sadik_v2/releases" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; font-size: 0.92rem; font-weight: 700; border: 0; background: #A78BFA; color: #fff; text-decoration: none;" style-hover="opacity: 0.88">Windows için indir</a>
-            <a href="https://github.com/ntrch/sadik_v2/releases" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; font-size: 0.92rem; font-weight: 700; border: 1px solid rgba(42,49,59,0.5); background: transparent; color: #e8e8f0; text-decoration: none;" style-hover="border-color: rgba(167,139,250,0.3)">macOS için indir</a>
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">Siparişin alındı!</h3>
+          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Teşekkürler. Kurulum linklerin ve aktivasyon detayların kısa süre içinde e-posta adresine gönderilecek.</p>
+          <div style="padding: 16px; border-radius: 14px; border: 1px solid rgba(42,49,59,0.5); background: rgba(167,139,250,0.06); font-size: 0.85rem; color: #b8b8c8; line-height: 1.5;">
+            E-postanı kontrol etmeyi unutma. Birkaç dakika içinde ulaşmazsa spam klasörüne de göz at.
           </div>
-          <p style="font-size: 0.7rem; color: #555566; margin-top: 1.5rem;">İndirme en son sürümü getirir.</p>
           <button onClick="{{ closePurchase }}" style="margin-top: 12px; padding: 10px 20px; border-radius: 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #666677; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0">Kapat</button>
         </div>
       </sc-if>
