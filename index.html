@@ -1380,7 +1380,7 @@ class Component extends DCLogic {
   var closeBtn = document.getElementById('sadik-lightbox-close');
   if (!overlay || !lbVideo || !closeBtn) return;
 
-  var triggerIds = ['plan-video-container', 'features-video-container', 'product-media-container'];
+  var triggerSelector = '#plan-video-container, #features-video-container, #product-media-container';
 
   function getVideoSrc(container) {
     if (!container) return '';
@@ -1421,15 +1421,18 @@ class Component extends DCLogic {
     }
   }
 
-  triggerIds.forEach(function (id) {
-    var container = document.getElementById(id);
+  // Event delegation on document — trigger container'lar React (dc) template'i içinde
+  // ve yeniden render ediliyor (özellik videosu otomatik dönüyor), doğrudan node'a
+  // bağlı listener'lar bu re-render'da düşer. Delegation re-render'a dayanır ve script
+  // React mount'tan önce çalışsa bile çalışır.
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (e.target.closest('.sadik-lightbox-overlay')) return; // lightbox içi tıklamalar
+    if (e.target.closest('button')) return;                  // sekme butonları vb.
+    var container = e.target.closest(triggerSelector);
     if (!container) return;
-    container.addEventListener('click', function (e) {
-      if (e.target && e.target.closest && e.target.closest('button')) return;
-      var src = getVideoSrc(container);
-      if (!src) return;
-      openLightbox(src);
-    });
+    var src = getVideoSrc(container);
+    if (src) openLightbox(src);
   });
 
   overlay.addEventListener('click', function (e) {
