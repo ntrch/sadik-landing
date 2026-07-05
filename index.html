@@ -45,12 +45,102 @@
     [style*="cursor:pointer"], [style*="cursor:pointer"] * {
       cursor: url('assets/cursor-2.png') 0 4, pointer !important;
     }
+
+    /* ============ RESPONSIVE (mobile) ============ */
+    @media (max-width: 768px) {
+      .feature-split { flex-direction: column !important; }
+      .feature-tabs {
+        flex-direction: row !important;
+        min-width: 0 !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+      .feature-tabs button { flex-shrink: 0; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding-left: 16px !important; padding-right: 16px !important; }
+    }
+
+    /* Lightbox */
+    .sadik-lightbox-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(5,5,10,0.72);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+    .sadik-lightbox-overlay.is-open {
+      display: flex;
+    }
+    .sadik-lightbox-overlay.is-visible {
+      opacity: 1;
+    }
+    .sadik-lightbox-frame {
+      width: min(96vw, 1920px);
+      aspect-ratio: 16 / 9;
+      max-height: min(90vh, 1080px);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+    }
+    .sadik-lightbox-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .sadik-lightbox-close {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #e8e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    @media (max-width: 480px) {
+      .sadik-lightbox-close { top: 8px; right: 8px; background: rgba(0,0,0,0.55); }
+    }
+    .sadik-video-expand-hint {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(10,10,15,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 3;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sadik-lightbox-overlay { transition: none; }
+    }
   </style>
 </helmet>
 
 <!-- ============ FLOATING PILL NAV ============ -->
 <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding-top: 16px; pointer-events: none;">
-  <nav style="display: flex; align-items: center; gap: clamp(16px, 3vw, 32px); background: rgba(10,10,15,0.75); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border: 1px solid rgba(42,49,59,0.5); border-radius: 9999px; padding: 10px 28px; pointer-events: auto; width: 344px; height: 65px">
+  <nav style="display: flex; align-items: center; gap: clamp(16px, 3vw, 32px); background: rgba(10,10,15,0.75); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border: 1px solid rgba(42,49,59,0.5); border-radius: 9999px; padding: 10px 28px; pointer-events: auto; width: 344px; max-width: calc(100vw - 32px); height: 65px">
     <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onClick="{{ scrollToTop }}">
       <div style="width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3);">
         <img src="assets/sadik-mark.png" alt="" style="width: 52px; height: 40px; border-radius: 12px">
@@ -127,11 +217,12 @@
       <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">GÜNÜNÜ PLANLA</h2>
       <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 480px; margin-left: auto; margin-right: auto;">Bugünü nasıl planlamak istiyorsan öyle planla. Zaman akışına istediğin blokları yerleştir, SADIK seninle birlikte takip etsin.</p>
     </div>
-    <div style="width: 100%; max-width: 900px; aspect-ratio: 16/10; border-radius: 24px; background: #111118; border: 1px solid rgba(42,49,59,0.5); overflow: hidden; position: relative; cursor: default;" onMouseEnter="{{ onPlanEnter }}" onMouseLeave="{{ onPlanLeave }}">
+    <div id="plan-video-container" style="width: 100%; max-width: 900px; aspect-ratio: 16/10; border-radius: 24px; background: #111118; border: 1px solid rgba(42,49,59,0.5); overflow: hidden; position: relative; cursor: pointer;" onMouseEnter="{{ onPlanEnter }}" onMouseLeave="{{ onPlanLeave }}">
       <video muted="true" loop="true" autoplay="true" playsinline="true" style="width: 100%; height: 100%; object-fit: cover; display: block;">
         <source src="uploads/plan.webm" type="video/webm">
       </video>
       <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.2) 40%, transparent 60%); opacity: {{ planHoverOpacity }}; transition: opacity 300ms ease; pointer-events: none;"></div>
+      <div class="sadik-video-expand-hint" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e8e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></div>
       <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; opacity: {{ planHoverOpacity }}; transition: opacity 300ms ease 80ms; pointer-events: none;">
         <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Gününü planla</h3>
         <p style="font-size: 0.88rem; color: #888899; line-height: 1.6; max-width: 480px;">Zaman akışına istediğin blokları yerleştir, SADIK seninle birlikte takip etsin.</p>
@@ -149,9 +240,9 @@
       <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 500px; margin-left: auto; margin-right: auto;">SADIK ve masaüstü uygulaması birlikte çalışır.</p>
     </div>
 
-    <div style="display: flex; gap: 32px;">
+    <div class="feature-split" style="display: flex; gap: 32px;">
       <!-- Tab list -->
-      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 200px; position: relative;">
+      <div class="feature-tabs" style="display: flex; flex-direction: column; gap: 4px; min-width: 200px; position: relative;">
         <button onClick="{{ selectTab0 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab0Bg }}; color: {{ tab0Color }}; border: 1px solid {{ tab0Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Görevler</button>
         <button onClick="{{ selectTab1 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab1Bg }}; color: {{ tab1Color }}; border: 1px solid {{ tab1Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Ajanda</button>
         <button onClick="{{ selectTab2 }}" style="text-align: left; padding: 12px 18px; border-radius: 14px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 150ms; font-family: inherit; background: {{ tab2Bg }}; color: {{ tab2Color }}; border: 1px solid {{ tab2Border }}; white-space: nowrap;" style-hover="background: rgba(167,139,250,0.08)">Alışkanlıklar</button>
@@ -163,9 +254,10 @@
       </div>
       <!-- Content area -->
       <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
-        <div id="features-video-container" style="aspect-ratio: 16/10; border-radius: 20px; overflow: hidden; background: #0a0a0f; border: 1px solid rgba(42,49,59,0.5); position: relative; cursor: default;" ref="{{ featureContainerRef }}" onMouseEnter="{{ onFeatureEnter }}" onMouseLeave="{{ onFeatureLeave }}">
+        <div id="features-video-container" style="aspect-ratio: 16/10; border-radius: 20px; overflow: hidden; background: #0a0a0f; border: 1px solid rgba(42,49,59,0.5); position: relative; cursor: pointer;" ref="{{ featureContainerRef }}" onMouseEnter="{{ onFeatureEnter }}" onMouseLeave="{{ onFeatureLeave }}">
           <video ref="{{ featureVideoRef }}" muted="true" loop="true" playsinline="true" style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.2) 40%, transparent 60%); opacity: {{ featureHoverOpacity }}; transition: opacity 300ms ease; pointer-events: none;"></div>
+          <div class="sadik-video-expand-hint" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e8e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></div>
           <!-- Görevler -->
           <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transition: opacity 300ms ease 80ms; pointer-events: none; opacity: {{ ov0Opacity }};" data-om-label="hover-text-gorevler">
             <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: #e8e8f0;">Görevler</h3>
@@ -220,7 +312,7 @@
       <h2 style="font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Verin sende kalır.</h2>
       <p style="font-size: 1rem; color: #666677; margin-top: 10px; max-width: 520px; margin-left: auto; margin-right: auto;">Yerel bilgisayarında çalışan SADIK sayesinde hiçbir verin buluta ve üçüncü parti taraflar ile paylaşılmaz. Tamamen verin sende kalır, üstelik yapay zekanın nimetlerinden faydalanırken bile</p>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 800px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto;">
       <!-- Kart 1 -->
       <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 18px; padding: 24px;">
         <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; color: #6EE7B7;">VERI GÜVENLIĞI</div>
@@ -354,9 +446,10 @@
 
     <!-- ÜRÜN KARTI — üst görsel, alt metin -->
     <div style="flex: 1 1 300px; background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
-      <div id="product-media-container" style="flex: 1; min-height: 220px; background: #000; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative;">
+      <div id="product-media-container" style="flex: 1; min-height: 220px; background: #000; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; cursor: pointer;">
         <img src="sadik_stripe_product_photo-mqyi58yz.png" alt="SADIK Mini" style="width: 100%; height: 100%; max-height: 260px; object-fit: contain; opacity: {{ productImgOpacity }}; transition: opacity 350ms ease;">
         <video ref="{{ productVideoRef }}" muted="true" loop="true" playsinline="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 24px; opacity: {{ productVideoOpacity }}; transition: opacity 350ms ease; pointer-events: none;"></video>
+        <div class="sadik-video-expand-hint" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e8e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></div>
       </div>
       <div style="flex: 1; padding: 20px 28px 28px; display: flex; flex-direction: column; justify-content: flex-start; border-top: 1px solid rgba(42,49,59,0.5);">
         <div style="display: flex; gap: 10px; margin-bottom: 18px;">
@@ -1268,6 +1361,85 @@ class Component extends DCLogic {
   }
 }
 
+</script>
+
+<!-- ============ VIDEO LIGHTBOX (independent, does not touch support.js / x-dc) ============ -->
+<div id="sadik-lightbox-overlay" class="sadik-lightbox-overlay" aria-hidden="true">
+  <div class="sadik-lightbox-frame">
+    <button type="button" id="sadik-lightbox-close" class="sadik-lightbox-close" aria-label="Kapat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <video id="sadik-lightbox-video" controls autoplay muted loop playsinline></video>
+  </div>
+</div>
+
+<script>
+(function () {
+  var overlay = document.getElementById('sadik-lightbox-overlay');
+  var lbVideo = document.getElementById('sadik-lightbox-video');
+  var closeBtn = document.getElementById('sadik-lightbox-close');
+  if (!overlay || !lbVideo || !closeBtn) return;
+
+  var triggerIds = ['plan-video-container', 'features-video-container', 'product-media-container'];
+
+  function getVideoSrc(container) {
+    if (!container) return '';
+    var v = container.querySelector('video');
+    if (!v) return '';
+    return v.currentSrc || (v.querySelector('source') && v.querySelector('source').src) || v.src || '';
+  }
+
+  function openLightbox(src) {
+    if (!src) return;
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.src = src;
+    overlay.classList.add('is-open');
+    // force reflow so the fade-in transition runs
+    void overlay.offsetWidth;
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var playPromise = lbVideo.play();
+    if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(function () {});
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    var finish = function () {
+      overlay.classList.remove('is-open');
+      lbVideo.pause();
+      lbVideo.removeAttribute('src');
+      lbVideo.load();
+    };
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finish();
+    } else {
+      setTimeout(finish, 200);
+    }
+  }
+
+  triggerIds.forEach(function (id) {
+    var container = document.getElementById(id);
+    if (!container) return;
+    container.addEventListener('click', function (e) {
+      if (e.target && e.target.closest && e.target.closest('button')) return;
+      var src = getVideoSrc(container);
+      if (!src) return;
+      openLightbox(src);
+    });
+  });
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeLightbox();
+  });
+  closeBtn.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+  });
+})();
 </script>
 </body>
 </html>
