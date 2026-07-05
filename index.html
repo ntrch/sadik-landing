@@ -21,6 +21,10 @@
        body'nin overflow-x:hidden'ına rağmen html seviyesinde yatay kaydırma yaratıyordu
        → dar ekranda ortalanmış içerik sola kayıyordu. html'e de clip şart. */
     html { overflow-x: hidden; }
+    /* Dekoratif 800px radial-gradient glow'lar (absolute) viewport'u aşıp yatay taşma
+       yaratıyordu; iOS Safari'de html overflow-x güvenilmez olabildiği için kaynağı da
+       kısıtla (belt-and-suspenders) — böylece dar ekranda içerik/nav sola kaymaz. */
+    [style*="radial-gradient(ellipse"] { max-width: 100vw; }
     body {
       background: #0a0a0f;
       color: #e8e8f0;
@@ -62,6 +66,17 @@
         padding-bottom: 4px;
       }
       .feature-tabs button { flex-shrink: 0; }
+      /* Videolar mobilde TAM-GENİŞLİK (edge-to-edge) — 16:9 landscape kaynağı KIRPMADAN
+         mümkün olan en büyük halde göster (best practice: portrait'e kırpma YOK). Detay
+         için kullanıcı tıklar → lightbox + video controls'un native fullscreen'i telefonu
+         yatay döndürüp tüm ekranı doldurur. */
+      #plan-video-container, #features-video-container, #product-media-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: calc(50% - 50vw) !important;
+        margin-right: calc(50% - 50vw) !important;
+        border-radius: 0 !important;
+      }
     }
 
     @media (max-width: 480px) {
