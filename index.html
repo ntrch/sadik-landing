@@ -66,6 +66,13 @@
         padding-bottom: 4px;
       }
       .feature-tabs button { flex-shrink: 0; }
+      /* Kaydırma AFFORDANCE'ı: sağ kenarda solma (fade) → daha fazla başlık olduğunu
+         belli eder. Son sekme kenardan silinerek "devamı var" sinyali verir. Statik
+         mask (JS yok) → React re-render'a dayanıklı. */
+      .feature-tabs {
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+        mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+      }
       /* Videolar mobilde TAM-GENİŞLİK (edge-to-edge) — 16:9 landscape kaynağı KIRPMADAN
          mümkün olan en büyük halde göster (best practice: portrait'e kırpma YOK). Detay
          için kullanıcı tıklar → lightbox + video controls'un native fullscreen'i telefonu
