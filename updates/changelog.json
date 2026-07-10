@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "seeAllUrl": "https://ntrch.github.io/sadik-landing/updates.html"
+  },
+  "releases": [
+    {
+      "appVersion": "0.7.42",
+      "firmwareVersion": "0.8.18",
+      "date": "2026-07-10",
+      "status": "current",
+      "title": "Değerli Taşlar",
+      "summary": "Renk temaların artık gemstone isimleriyle seçilebiliyor, pencere tamamen yenilendi.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Gemstone renk temaları + yuvarlak pencere",
+          "body": "13 yeni renk teması artık değerli taş isimleriyle geliyor. Her tema için açık ve koyu ton varyantı var; seçim kaydet-gated, yani canlı önizleme olmadan sadece kaydettiğinde uygulanıyor. Pencere de baştan aşağı yenilendi: transparent yuvarlak köşeler, kalın bezel ve özel pencere butonları.",
+          "media": [
+            {
+              "src": "updates-media/mode_change.mp4",
+              "caption": "Tema Geçiş Animasyonu"
+            }
+          ],
+          "sub": [
+            {
+              "title": "Nasıl çalışıyor",
+              "body": "Ayarlar → Görünüm altında grup + ton seçiciye indirgendi.",
+              "bullets": [
+                "Renk grubu ve açık/koyu ton tek toggle'da",
+                "Açık/koyu toggle yalnızca basınca açılıyor",
+                "Kaydet butonuna basmadan hiçbir şey değişmiyor",
+                "Pencere artık transparent + yuvarlak köşeli, custom minimize/kapat butonları"
+              ]
+            }
+          ],
+          "badge": "DURAĞAN"
+        },
+        {
+          "type": "fix",
+          "title": "Arayüz ve kararlılık düzeltmeleri",
+          "body": "Renk isimleri sadeleştirildi. Port çakışması yaşanan durumlarda arka plan servisinin kendini toparlaması (orphan reclaim) artık Windows ve macOS'ta aynı şekilde çalışıyor.",
+          "footnote": "Bu sürümde görünür bir kırılma bildirilmedi."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.41",
+      "date": "2026-07-09",
+      "status": "previous",
+      "title": "Akıllı Plan & Timeline",
+      "summary": "Plan ve pomodoro artık tek bir zaman çizelgesi otoritesi üzerinden çalışıyor.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Plan/Timer re-mimarisi — timeline tek otorite",
+          "body": "Pomodoro ve mola blokları artık aynı timeline üzerinde tek bir state machine tarafından yönetiliyor (çift-modelleme sorunu kökten çözüldü). Blok düzenleme, reshape ve kaydırma artık tutarlı; pomodoro'ya bağlı bloklar birlikte taşınıyor, birini silmek grubu da silebiliyor (cascade).",
+          "media": [
+            {
+              "src": "updates-media/task_done.mp4",
+              "caption": "Blok Tamamlama Animasyonu"
+            }
+          ],
+          "sub": [
+            {
+              "title": "Yeni davranışlar",
+              "body": "Plan sayfasında şunlar değişti:",
+              "bullets": [
+                "Sonsuz kayan (rolling) timeline — bugüne odaklı, kenardan gün atlama",
+                "Blok zamanı gelince otomatik başlıyor (arming), bitince gözden geçir/yeniden planla ekranı açılıyor",
+                "Pomodoro-bağlı bloklar bundle olarak taşınıyor; cascade silme ile grup birlikte kalkıyor",
+                "5 dakikalık snap zorunluluğu kaldırıldı, reshape editörü artık clamp'li"
+              ]
+            }
+          ],
+          "badge": "SESSİZ"
+        },
+        {
+          "type": "fix",
+          "title": "Kararlılık düzeltmeleri",
+          "body": "StrictMode'un çift-fire'ından kaynaklanan duplike blok hatası kapatıldı; snooze artık grup-farkında (bundle içi çakışma yaratmıyor); bundle reshape'te gün-offset kaybı giderildi."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.38",
+      "date": "2026-07-05",
+      "status": "previous",
+      "title": "Görev Panosu",
+      "summary": "Görev panosu 5-değerlik durum modeliyle ve kullanıcı-tanımlı görev ağaçlarıyla yenilendi.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "5-değerlik görev durumu + görev ağaçları",
+          "body": "Görev panosu artık kanonik 5-değerlik durum modeli üzerinde çalışıyor: 3 aktif kolon + ayrı bir Kapatılanlar görünümü. Kullanıcılar artık görevleri alt-görevlerle ağaç halinde kurabiliyor, sürükle-sırala ile düzenleyebiliyor; oluşturulup kaydedilmeden kapatılan görevler taslak olarak korunuyor.",
+          "media": [
+            {
+              "src": "updates-media/task_created.mp4",
+              "caption": "Görev Oluşturma"
+            }
+          ],
+          "sub": [
+            {
+              "title": "Panoda neler değişti",
+              "body": "",
+              "bullets": [
+                "3 aktif kolon + Kapatılanlar toggle, kolon-içi scroll + sticky başlık",
+                "En-yeni-üstte sıralama + daha-fazla-göster + arama",
+                "Görev ağaçları — alt-görev ekleme + sürükle-sırala",
+                "Taslaklar — kaydedilmeden kapatılan görev popup'ta veri kaybetmiyor"
+              ]
+            }
+          ],
+          "badge": "HAREKET"
+        },
+        {
+          "type": "fix",
+          "title": "Arayüz düzeltmeleri",
+          "body": "Kolon üst padding sızıntısı ve sticky başlık şeridi düzeltildi; kartlar artık başlık üstünden taşmıyor."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.36",
+      "date": "2026-07-05",
+      "status": "previous",
+      "title": "SADIK Notch",
+      "summary": "Ekranda cihazın always-on-top dijital ikizi: dosya tepsisi ve tek-tık hızlı not.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Dijital notch — cihazın ekran ikizi",
+          "body": "SADIK artık ekranında da yaşıyor: cihazın always-on-top dijital ikizi olan notch, dosya sürükle-bırakınca geçici bir tepside tutuyor (en fazla 5 dosya) ve tek tıkla Beyin Fırtınası'na not düşürüyor. macOS'ta gerçek MacBook notch'una görsel olarak kaynaşan bir silüet (clip-path) kullanılıyor; Windows'ta simüle ediliyor.",
+          "media": [
+            {
+              "src": "updates-media/sadik-notch-ide.mp4",
+              "caption": "Notch Görünümü"
+            }
+          ],
+          "sub": [
+            {
+              "title": "Detaylar",
+              "body": "",
+              "bullets": [
+                "Dosya tepsisi — sürükle-bırak, en fazla 5 dosya, drag-out ile çıkarma",
+                "Tek-click Spotlight tarzı mini-bar → doğrudan Beyin Fırtınası'na not",
+                "Boştayken gizle ayarı — animasyon veya bildirim gelince kendiliğinden çıkıyor",
+                "Mac-modu: OS-aware, gerçek notch'la kaynaşan birleşik silüet"
+              ]
+            }
+          ],
+          "badge": "YENİ"
+        },
+        {
+          "type": "fix",
+          "title": "Kararlılık düzeltmeleri",
+          "body": "Boştayken gizle ayarındaki titreme (hover re-reveal + klip geçişi çakışması) giderildi; expanded silüetteki yan sızıntı ve düz-alt sorunu düzeltildi."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.35",
+      "date": "2026-07-04",
+      "status": "previous",
+      "title": "Mükemmel Gün",
+      "summary": "Günlük hedef ve başarı mekaniği; cihaz ve notch artık günü kutluyor.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Mükemmel Gün — günlük hedef/achievement mekaniği",
+          "body": "Her gün için kalıcı bir hedef tanımı ve otomatik değerlendirme geldi. Gün sonunda hedef tutmuşsa cihaz ve notch bunu kutlayan özel klipler oynatıyor; erken tamamlanan veya kaçırılan günler de ayrıca işaretleniyor.",
+          "media": [
+            {
+              "src": "updates-media/perfectday_done.mp4",
+              "caption": "Mükemmel Gün Kutlaması"
+            }
+          ],
+          "badge": "DURAĞAN"
+        },
+        {
+          "type": "fix",
+          "title": "Entegrasyon düzeltmeleri",
+          "body": "Perfect Day klipleri (done/fail) AnimationEngine'in klip kaydına eklendi — daha önce cihaz/notch bu klipleri hiç oynatmıyordu."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.23",
+      "date": "2026-06-16",
+      "status": "previous",
+      "title": "Oyun Modu HUD",
+      "summary": "Oyun oynarken cihazda canlı performans göstergesi: FPS, sıcaklık, kullanım.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Oyun Modu HUD v3",
+          "body": "Firmware'e native 3-sütun gaming HUD eklendi; Windows tarafında PresentMon tabanlı bir performans telemetri servisi (SadikPerfHelper, .NET 8) FPS/frametime/sıcaklık/kullanım verisini cihaza aktarıyor. HUD tasarımı birkaç iterasyondan geçti: gauge kullanım+sıcaklık gösteriyor, metrik seçici artık canlı Modlar sayfasında.",
+          "media": [
+            {
+              "src": "updates-media/mode_gaming.mp4",
+              "caption": "Oyun Modu HUD"
+            }
+          ],
+          "badge": "HAREKET"
+        },
+        {
+          "type": "fix",
+          "title": "Performans ve kurulum düzeltmeleri",
+          "body": "PresentMon argümanları ve bundle sorunları, CPU sıcaklığı/RAM toplamı okuması ve sessiz elevation (scheduled task) düzeltildi."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.21",
+      "date": "2026-06-15",
+      "status": "previous",
+      "title": "Modlar & Kavram Netliği",
+      "summary": "Modlar artık kendi sayfasında; arketip davranışı belirleyen bir mekanik olmaktan çıktı.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Modlar sayfası + kavram modeli netleştirmesi",
+          "body": "Modlar artık popup değil, kendi sayfasında (uzay tasarımıyla) yönetiliyor: her modda ikon/renk/DnD/Odak toggle var. Arka planda daha büyük bir değişiklik oldu — arketip artık davranışı belirleyen bir mekanik değil, yalnızca bir etiket; toplantı davranışı ayrı bir is_meeting bayrağına taşındı, Dikkat Koruması artık pomodoro'nun work fazında otomatik açılıyor.",
+          "sub": [
+            {
+              "title": "CONCEPT_MODEL netleştirmesi",
+              "body": "",
+              "bullets": [
+                "Arketip → davranış-sürücüsü değil, yalnızca etiket",
+                "is_meeting bağımsız bir bayrak oldu (toplantı davranışı arketipten koptu)",
+                "Dikkat Koruması pomodoro work fazıyla otomatik tetikleniyor",
+                "'Derin Odak' ismi 'Derin Çalışma' oldu"
+              ]
+            }
+          ],
+          "badge": "SESSİZ"
+        },
+        {
+          "type": "fix",
+          "title": "Görsel düzeltmeler",
+          "body": "Beyaz panelde görünmeyen metin/toggle renkleri düzeltildi; headbar mod ikonu artık aktif modun rengiyle senkron."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.20",
+      "firmwareVersion": "0.8.12",
+      "date": "2026-06-14",
+      "status": "previous",
+      "title": "Batarya & Kablosuz Güncelleme",
+      "summary": "Uçtan uca batarya yönetimi ve WiFi üzerinden imzalı OTA güncelleme.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Batarya yönetimi + WiFi OTA",
+          "body": "Cihaz artık kendi bataryasını yönetiyor: ADC tabanlı ölçüm, USB-CDC+voltaj-trendi ile şarj algısı, düşük pilde otomatik tasarruf modu ve renderer'da canlı gösterge. Ayrıca WiFi üzerinden güncelleme artık ed25519 ile imzalanıyor ve anti-downgrade koruması var; her hedeften sonra cihaz kendini yeniden başlatıp bağlantıyı kendisi kuruyor.",
+          "media": [
+            {
+              "src": "updates-media/connected.mp4",
+              "caption": "Bağlantı Kurulumu"
+            }
+          ],
+          "sub": [
+            {
+              "title": "Batarya detayları",
+              "body": "",
+              "bullets": [
+                "ADC ölçüm + USB-CDC/voltaj-trendi ile yanlış-pozitifsiz şarj algısı",
+                "Düşük pilde otomatik tasarruf modu + ekran gücü uyku katmanı",
+                "WiFi bağlıyken periyodik STATUS poll ile pil telemetrisi"
+              ]
+            }
+          ],
+          "badge": "HAREKET"
+        },
+        {
+          "type": "fix",
+          "title": "Kararlılık düzeltmeleri",
+          "body": "PC kapanıp yeniden bağlanınca cihaz artık donmuyor (watchdog + heartbeat + temiz çıkış); WiFi OTA sonrası gösterilen firmware sürümü artık doğru güncelleniyor."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.19",
+      "date": "2026-06-19",
+      "status": "previous",
+      "title": "Güvenlik Sertleştirme",
+      "summary": "Backend, OTA ve giriş akışları uçtan uca sertleştirildi.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Güvenlik P0 paketi",
+          "body": "Backend artık yalnızca localhost'a bağlanıyor ve token doğrulaması + rate limit ile korunuyor. OTA güncellemeleri ed25519 ile imzalanıyor ve anti-downgrade korumalı. Google girişi PKCE (S256) ile güçlendirildi; Electron tarafında navigasyon guard'ları ve openExternal allowlist eklendi.",
+          "sub": [
+            {
+              "title": "Kapsam",
+              "body": "",
+              "bullets": [
+                "Backend localhost bind + X-App-Token doğrulaması + rate limit",
+                "OTA ed25519 imzalama + anti-downgrade + secureboot hazırlığı",
+                "Google OAuth PKCE (S256)",
+                "Electron nav guard'ları + openExternal allowlist"
+              ]
+            }
+          ],
+          "badge": "DURAĞAN"
+        },
+        {
+          "type": "fix",
+          "title": "İlişkili düzeltmeler",
+          "body": "Aktivasyon sırrı spesifikasyondan temizlendi, gönderilmiş Stripe anahtarları kaldırıldı, secret rotasyon kontrol listesi hazırlandı."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.9",
+      "date": "2026-06-22",
+      "status": "previous",
+      "title": "SADIK Sohbet — Yerel Beyin",
+      "summary": "Cihazdan bağımsız, tamamen yerel çalışan bir sohbet asistanı geldi.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Yerel AI sohbet (Ollama + Gemma)",
+          "body": "SADIK Sohbet artık isteğe bağlı yerel bir modelle (Ollama üzerinden Gemma) çalışabiliyor — tool-calling ile görev/ajanda/alışkanlık verine gerçekten erişiyor. Sohbet arayüzü modelin 'ısınma' (warming) durumunu canlı gösteriyor; yerel AI raporlarına 7 farklı niyet için birleşik, zengin bir görsel dil (donut/vs-avg/saatlik/streak/ajanda kartları) eklendi.",
+          "sub": [
+            {
+              "title": "Detaylar",
+              "body": "",
+              "bullets": [
+                "Ollama tool-calling loop — mevcut TOOLS/execute_tool yeniden kullanılıyor",
+                "Wakeword ile sohbeti doğrudan çağırma",
+                "7 intent için ortak kart kabuğu + yeni chart'lar (hourly/streak/agenda)",
+                "Cold-load ve OOM durumlarında açıklayıcı kullanıcı mesajları"
+              ]
+            }
+          ],
+          "badge": "YENİ"
+        },
+        {
+          "type": "fix",
+          "title": "Güvenilirlik düzeltmeleri",
+          "body": "Gemma'nın tool-calling güvenilirliği için metin-form çağrı parser'ı eklendi; agent artık kişisel değerlendirme isteklerini reddetmek yerine yerel veriye dayalı somut cevap veriyor; global axios timeout local LLM'in soğuk yüklemesine göre 180sn'ye çıkarıldı."
+        }
+      ]
+    },
+    {
+      "appVersion": "0.7.0",
+      "firmwareVersion": "0.7.1",
+      "date": "2026-05-18",
+      "status": "previous",
+      "title": "Temel 0.7 Hattı",
+      "summary": "İlk 0.7 sürümü — çapraz-platform kararlılık ve altyapı temeli.",
+      "entries": [
+        {
+          "type": "feature",
+          "title": "Çapraz-platform temel",
+          "body": "Win ve Mac için ayrı yayın kanalları (sadik-releases-win / sadik-releases-mac) kuruldu; macOS tarafında workspace/app-usage/mikrofon izinleri paritesi sağlandı. Günlük brief ve akşam recap için sesli özet özelliği geldi; cihaz rotasyonu artık NVS'te kalıcı.",
+          "media": [
+            {
+              "src": "updates-media/booting.mp4",
+              "caption": "Açılış"
+            }
+          ],
+          "badge": "SESSİZ"
+        },
+        {
+          "type": "fix",
+          "title": "Kararlılık düzeltmeleri",
+          "body": "Ses hattında (router/TTS) çok sayıda düzeltme yapıldı; hava durumu OpenWeatherMap'ten API-key gerektirmeyen Open-Meteo'ya taşındı; macOS paketleme parity sorunları giderildi."
+        }
+      ]
+    }
+  ]
+}

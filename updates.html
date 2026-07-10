@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SADIK — Güncellemeler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; max-width: 100%; }
+  body {
+    background: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: center; padding-top: 16px; pointer-events: none;
+  }
+  nav {
+    display: flex; align-items: center; gap: clamp(16px, 3vw, 32px);
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(42,49,59,0.5);
+    border-radius: 9999px;
+    padding: 10px 28px;
+    pointer-events: auto;
+  }
+  nav a { color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms; }
+  nav a:hover { color: #e8e8f0; }
+  nav .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  nav .brand span { font-size: 0.9rem; font-weight: 800; letter-spacing: 0.08em; color: #e8e8f0; }
+  nav .brand-box { width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3); }
+  nav .brand-box img { width: 52px; height: 40px; border-radius: 12px; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 140px 24px 80px; }
+
+  .hero { text-align: center; margin-bottom: 56px; }
+  .hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: #e8e8f0; }
+  .hero p { font-size: 0.98rem; color: #888899; max-width: 480px; margin: 14px auto 0; line-height: 1.6; }
+
+  .release { display: flex; gap: 28px; }
+  .release + .release { margin-top: 8px; }
+
+  .rail { flex-shrink: 0; width: 96px; display: flex; flex-direction: column; align-items: center; }
+  .rail-appver { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 26px; color: #e8e8f0; line-height: 1; }
+  .rail-fwver { margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(232,232,240,0.5); line-height: 1; }
+  .rail-status {
+    margin-top: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 9999px;
+  }
+  .rail-status.current { color: #6EE7B7; background: rgba(110,231,183,0.10); border: 1px solid rgba(110,231,183,0.28); }
+  .rail-status.previous { color: rgba(232,232,240,0.55); background: rgba(255,255,255,0.05); border: 1px solid rgba(42,49,59,0.6); }
+  .rail-line { flex: 1; width: 1px; background: rgba(42,49,59,0.6); margin: 16px 0 4px; min-height: 24px; }
+
+  .content { flex: 1; min-width: 0; padding-bottom: 48px; }
+  .rel-date { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: rgba(232,232,240,0.4); }
+  .rel-title { margin-top: 6px; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; color: #e8e8f0; }
+  .rel-summary { margin-top: 6px; font-size: 13.5px; color: #a3a3b3; line-height: 1.6; }
+
+  .entry { border-top: 1px solid rgba(42,49,59,0.5); padding: 20px 0 4px; position: relative; }
+  .entry:first-child { border-top: none; padding-top: 18px; }
+  .entry-badge {
+    position: absolute; top: 20px; right: 0;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: rgba(232,232,240,0.55); background: rgba(255,255,255,0.05); border: 1px solid rgba(42,49,59,0.6);
+    padding: 2px 9px; border-radius: 9999px;
+  }
+  .entry-fix-tag {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700;
+    color: #F2C150; background: rgba(242,193,80,0.12); border: 1px solid rgba(242,193,80,0.28);
+    padding: 4px 10px; border-radius: 9999px; margin-bottom: 8px;
+  }
+  .entry-title { font-size: 15px; font-weight: 700; color: #e8e8f0; padding-right: 90px; }
+  .entry-body { margin-top: 6px; font-size: 13px; color: #a3a3b3; line-height: 1.65; }
+
+  .entry-media { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .media-thumb { width: 320px; max-width: 100%; }
+  .media-thumb video { width: 320px; max-width: 100%; height: 170px; object-fit: cover; border-radius: 10px; background: #000; border: 1px solid rgba(42,49,59,0.6); display: block; }
+  .media-caption { margin-top: 6px; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(232,232,240,0.45); text-align: center; line-height: 1.3; }
+
+  .entry-sub { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .sub-title { font-size: 13px; font-weight: 600; color: #e8e8f0; }
+  .sub-body { margin-top: 2px; font-size: 12.5px; color: #a3a3b3; }
+  .sub-bullets { margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
+  .sub-bullets li { list-style: none; font-size: 12.5px; color: #a3a3b3; display: flex; gap: 8px; align-items: flex-start; }
+  .sub-bullets li::before { content: ''; flex-shrink: 0; width: 4px; height: 4px; margin-top: 6px; border-radius: 50%; background: #22D3EE; display: block; }
+
+  .entry-footnote { margin-top: 12px; font-size: 11.5px; font-weight: 700; color: rgba(163,163,179,0.85); }
+
+  .see-all-link { display: block; text-align: center; margin-top: 24px; font-size: 12.5px; color: #666677; }
+  .see-all-link a { color: #A78BFA; text-decoration: none; }
+  .see-all-link a:hover { text-decoration: underline; }
+
+  footer { padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; font-size: 0.82rem; color: #555566; border-top: 1px solid rgba(42,49,59,0.3); max-width: 760px; margin: 0 auto; }
+  footer a { color: #555566; text-decoration: none; transition: color 150ms; }
+  footer a:hover { color: #e8e8f0; }
+  footer .brand { display: flex; align-items: center; gap: 8px; }
+  footer .brand img { width: 18px; height: 18px; border-radius: 4px; }
+
+  @media (max-width: 560px) {
+    .release { gap: 16px; }
+    .rail { width: 68px; }
+    .rail-appver { font-size: 19px; }
+    .entry-title { padding-right: 0; }
+    .entry-badge { position: static; display: inline-block; margin-bottom: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="brand" href="index.html">
+      <span class="brand-box"><img src="assets/sadik-mark.png" alt=""></span>
+    </a>
+    <a href="index.html#features">Uygulama</a>
+    <a href="index.html#pricing">Fiyatlandırma</a>
+    <a href="updates.html">Güncellemeler</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Uygulamada neler değişti</h1>
+    <p>Uygulama içi Güncellemeler görünümünden yansıtılan herkese açık sürüm notları.</p>
+  </div>
+
+  <div id="releases"></div>
+</main>
+
+<footer>
+  <div class="brand">
+    <img src="assets/sadik-mark.png" alt="">
+    <span>© 2026 SADIK</span>
+  </div>
+  <div style="display:flex; gap:24px;">
+    <a href="index.html#pricing">Fiyatlandırma</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="index.html#roadmap">Yol Haritası</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var MEDIA_BASE = 'updates/';
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : s;
+    return d.innerHTML;
+  }
+
+  function statusLabel(status) {
+    return status === 'current' ? 'ŞİMDİ' : 'ÖNCEKİ';
+  }
+
+  function renderEntry(entry) {
+    var isFix = entry.type === 'fix';
+    var html = '<div class="entry">';
+    if (entry.badge) html += '<span class="entry-badge">' + esc(entry.badge) + '</span>';
+    if (isFix) {
+      html += '<div class="entry-fix-tag"><i data-lucide="wrench" style="width:12px;height:12px"></i> Düzeltmeler</div>';
+    }
+    html += '<div class="entry-title">' + esc(entry.title) + '</div>';
+    html += '<div class="entry-body">' + esc(entry.body) + '</div>';
+
+    if (entry.media && entry.media.length) {
+      html += '<div class="entry-media">';
+      entry.media.forEach(function (m) {
+        html += '<div class="media-thumb">' +
+          '<video src="' + MEDIA_BASE + esc(m.src) + '" muted loop autoplay playsinline></video>' +
+          '<div class="media-caption">' + esc(m.caption) + '</div>' +
+          '</div>';
+      });
+      html += '</div>';
+    }
+
+    if (entry.sub && entry.sub.length) {
+      html += '<div class="entry-sub">';
+      entry.sub.forEach(function (s) {
+        html += '<div><div class="sub-title">' + esc(s.title) + '</div>' +
+          '<div class="sub-body">' + esc(s.body) + '</div>';
+        if (s.bullets && s.bullets.length) {
+          html += '<ul class="sub-bullets">' + s.bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
+    if (entry.footnote) {
+      html += '<div class="entry-footnote">' + esc(entry.footnote) + '</div>';
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  function renderRelease(release, isLast) {
+    var html = '<div class="release">';
+    html += '<div class="rail">';
+    html += '<div class="rail-appver">' + esc(release.appVersion) + '</div>';
+    if (release.firmwareVersion) html += '<div class="rail-fwver">fw ' + esc(release.firmwareVersion) + '</div>';
+    html += '<div class="rail-status ' + esc(release.status) + '">' + statusLabel(release.status) + '</div>';
+    if (!isLast) html += '<div class="rail-line"></div>';
+    html += '</div>';
+
+    html += '<div class="content">';
+    html += '<div class="rel-date">' + esc(release.date) + '</div>';
+    html += '<div class="rel-title">' + esc(release.title) + '</div>';
+    html += '<div class="rel-summary">' + esc(release.summary) + '</div>';
+    (release.entries || []).forEach(function (e) { html += renderEntry(e); });
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+  }
+
+  fetch('updates/changelog.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var container = document.getElementById('releases');
+      var releases = data.releases || [];
+      var html = releases.map(function (rel, i) { return renderRelease(rel, i === releases.length - 1); }).join('');
+      container.innerHTML = html;
+      if (window.lucide) window.lucide.createIcons();
+    })
+    .catch(function (err) {
+      var container = document.getElementById('releases');
+      container.innerHTML = '<p style="text-align:center;color:#666677;font-size:13px;">Sürüm notları şu anda yüklenemedi.</p>';
+      console.error('changelog load failed', err);
+    });
+})();
+</script>
+
+</body>
+</html>
