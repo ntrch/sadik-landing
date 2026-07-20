@@ -13,7 +13,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -458,9 +457,7 @@
         </div>
 
         <sc-if value="{{ bothSelected }}" hint-placeholder-val="{{ false }}">
-          <div style="display: flex; justify-content: center; width: 100%;">
-            <stripe-buy-button buy-button-id="buy_btn_1TncWKDa26V7KDpWezmfhkCB" publishable-key="pk_live_51PaZgKDa26V7KDpWaLmkv8jVQvZt7di2l7iFXVV2Uf6oyT1CGHYAO1BCNVZQ9LkWEYC05EYrYk00cbfw8rLqYXMW00V83bvDPl"></stripe-buy-button>
-          </div>
+          <button onClick="{{ goToCheckout }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; transition: opacity 150ms;" style-hover="opacity: 0.9" type="button">{{ checkoutLabel }}</button>
         </sc-if>
         <sc-if value="{{ notBothSelected }}" hint-placeholder-val="{{ true }}">
           <button disabled="true" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: not-allowed; border: 0; background: rgba(167,139,250,0.2); color: rgba(232,232,240,0.45); font-family: inherit;" type="button">Ön sipariş ver</button>
@@ -1304,6 +1301,21 @@ class Component extends DCLogic {
       bothSelected: !!(this.state.color && mountType),
       notBothSelected: !(this.state.color && mountType),
       selectionHint: (!this.state.color && !mountType) ? 'Lütfen renk ve konum seçin' : (!this.state.color ? 'Lütfen bir renk seçin' : 'Lütfen bir konum seçin'),
+
+      // Stripe payment link yönlendirmesi — renk linki belirler,
+      // konum client_reference_id ile geçer (black-side / black-up / white-side / white-up)
+      checkoutLabel: 'Ön sipariş ver',
+      goToCheckout: () => {
+        var links = {
+          black: 'https://buy.stripe.com/fZu8wPeVd3Go02r2LA4wM01',
+          white: 'https://buy.stripe.com/6oUfZhbJ1el27uT71Q4wM02',
+        };
+        var color = this.state.color;
+        var pos = mountType === 'top' ? 'up' : 'side';
+        var base = links[color];
+        if (!base) return;
+        window.location.href = base + '?client_reference_id=' + color + '-' + pos;
+      },
 
       sideMountBg: mountType === 'side' ? 'rgba(167,139,250,0.12)' : 'rgba(42,49,59,0.2)',
       sideMountColor: mountType === 'side' ? '#A78BFA' : '#666677',
