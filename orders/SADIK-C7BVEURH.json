@@ -1,0 +1,14 @@
+{
+  "orderId": "SDK-C7BVEURH",
+  "date": "20 Temmuz 2026",
+  "product": {
+    "color": "Siyah",
+    "mount": "Yan montaj"
+  },
+  "quantity": 1,
+  "status": "received",
+  "dates": {
+    "received": "20 Temmuz 2026"
+  },
+  "updatedAt": "20 Temmuz 2026"
+}
