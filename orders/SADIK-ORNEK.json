@@ -1,0 +1,17 @@
+{
+  "orderId": "SDK-0001",
+  "date": "18 Temmuz 2026",
+  "product": { "color": "Siyah", "mount": "Yan montaj" },
+  "quantity": 1,
+  "status": "shipped",
+  "dates": {
+    "received": "18 Temmuz 2026",
+    "preparing": "19 Temmuz 2026",
+    "shipped": "20 Temmuz 2026"
+  },
+  "carrier": "Yurtiçi Kargo",
+  "trackingNumber": "1234567890123",
+  "trackingUrl": "https://www.yurticikargo.com/tr/online-servisler/gonderi-sorgula?code=1234567890123",
+  "note": "Paketin 1-2 iş günü içinde adresine teslim edilecek.",
+  "updatedAt": "20 Temmuz 2026"
+}
