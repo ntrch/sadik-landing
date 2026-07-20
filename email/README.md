@@ -25,8 +25,8 @@ da desteklemez. Bu yüzden:
    | `{{COLOR}}` | Siyah / Beyaz |
    | `{{MOUNT}}` | Yan montaj / Üst montaj |
    | `{{QTY}}` | Adet (ör. 1) |
-   | `{{ORDER_ID}}` | Kendi sipariş no'n (ör. SDK-0042) |
    | `{{PRICE}}` | Toplam (ör. `2.499 ₺`) |
+   | `{{SUPPORT_EMAIL}}` | "Bize ulaş" butonunun gideceği e-posta |
 
    Not: `{{CODE}}` üç yerde geçer (kod kutusu, buton linki, footer linki) —
    hepsini değiştir. En kolayı editörde "tümünü değiştir" (find & replace).
