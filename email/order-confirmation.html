@@ -76,20 +76,41 @@
                 <tr>
                   <td align="center" style="padding:20px 6px 0;">
                     <p style="margin:0; font-family:'Inter',Arial,sans-serif; font-size:14px; line-height:1.7; color:#9a9aab;">
-                      SADIK MINI'ni elimizle hazırlıyoruz. Kargoya verdiğimizde takip
+                      Siparişini elimizle hazırlıyoruz. Kargoya verdiğimizde takip
                       numarası aşağıdaki koda düşecek — siparişinin her adımını oradan izleyebilirsin.
                     </p>
                   </td>
                 </tr>
               </table>
 
-              <!-- Sipariş meta satırı -->
+              <!-- Ürün detayları — chip'ler -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="center" style="padding:18px 0 0;">
-                    <span style="font-family:'Inter',Arial,sans-serif; font-size:12px; color:#5f5f70;">
-                      {{COLOR}} &nbsp;&middot;&nbsp; {{MOUNT}} &nbsp;&middot;&nbsp; {{QTY}} adet &nbsp;&middot;&nbsp; {{PRICE}}
-                    </span>
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                      <tr>
+                        <td style="padding:4px;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                            <td style="background:rgba(42,49,59,0.4); border:1px solid rgba(42,49,59,0.7); border-radius:9999px; padding:6px 14px; font-family:'Inter',Arial,sans-serif; font-size:12px; font-weight:600; color:#c9c9d4; white-space:nowrap;">{{COLOR}}</td>
+                          </tr></table>
+                        </td>
+                        <td style="padding:4px;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                            <td style="background:rgba(42,49,59,0.4); border:1px solid rgba(42,49,59,0.7); border-radius:9999px; padding:6px 14px; font-family:'Inter',Arial,sans-serif; font-size:12px; font-weight:600; color:#c9c9d4; white-space:nowrap;">{{MOUNT}}</td>
+                          </tr></table>
+                        </td>
+                        <td style="padding:4px;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                            <td style="background:rgba(42,49,59,0.4); border:1px solid rgba(42,49,59,0.7); border-radius:9999px; padding:6px 14px; font-family:'Inter',Arial,sans-serif; font-size:12px; font-weight:600; color:#c9c9d4; white-space:nowrap;">{{QTY}} adet</td>
+                          </tr></table>
+                        </td>
+                        <td style="padding:4px;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                            <td style="background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.28); border-radius:9999px; padding:6px 14px; font-family:'Inter',Arial,sans-serif; font-size:12px; font-weight:700; color:#C9B6FF; white-space:nowrap;">{{PRICE}}</td>
+                          </tr></table>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               </table>
@@ -167,8 +188,8 @@
               <img src="https://ntrch.github.io/sadik-landing/assets/sadik-mark.png" width="34" height="26" alt="SADIK" style="display:block; margin:0 auto 10px; opacity:0.7; border-radius:7px;">
               <p style="margin:0; font-family:'Inter',Arial,sans-serif; font-size:11px; color:#4f4f5e;">
                 &copy; 2026 SADIK &nbsp;&middot;&nbsp;
-                <a href="https://ntrch.github.io/sadik-landing/" style="color:#5f5f70; text-decoration:none;">sadik</a> &nbsp;&middot;&nbsp;
-                <a href="https://ntrch.github.io/sadik-landing/track.html?code={{CODE}}" style="color:#5f5f70; text-decoration:none;">sipariş takibi</a>
+                <a href="https://ntrch.github.io/sadik-landing/" style="color:#5f5f70; text-decoration:none;">ANA SAYFA</a> &nbsp;&middot;&nbsp;
+                <a href="https://ntrch.github.io/sadik-landing/track.html?code={{CODE}}" style="color:#5f5f70; text-decoration:none;">SİPARİŞ TAKİBİ</a>
               </p>
             </td>
           </tr>
