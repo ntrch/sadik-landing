@@ -280,6 +280,7 @@
 
 <script>
 (function () {
+  var API_BASE = 'https://sadik-orders.vercel.app'; // TODO(owner): Vercel deployment URL of order-automation
   var WIN_API = 'https://api.github.com/repos/ntrch/sadik-releases-win/releases/latest';
   var MAC_API = 'https://api.github.com/repos/ntrch/sadik-releases-mac/releases/latest';
   var WIN_FALLBACK = 'https://github.com/ntrch/sadik-releases-win/releases/latest';
@@ -372,10 +373,12 @@
     verifyBtn.disabled = true;
     verifyBtn.textContent = '...';
 
-    fetch('orders/' + code + '.json', { cache: 'no-store' })
+    fetch(API_BASE + '/api/verify-order?code=' + encodeURIComponent(code), { cache: 'no-store' })
       .then(function (r) {
-        if (!r.ok) throw new Error('not found');
-        return r.json();
+        return r.json().then(function (body) {
+          if (!r.ok || !body || body.ok === false) throw new Error('not found');
+          return body.order;
+        });
       })
       .then(function (order) {
         setVerified(order);
