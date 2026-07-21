@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SADIK — İndir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; max-width: 100%; }
+  body {
+    background: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: center; padding-top: 16px; pointer-events: none;
+  }
+  nav {
+    display: flex; align-items: center; gap: clamp(16px, 3vw, 32px);
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(42,49,59,0.5);
+    border-radius: 9999px;
+    padding: 10px 28px;
+    pointer-events: auto;
+  }
+  nav a { color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms; }
+  nav a:hover { color: #e8e8f0; }
+  nav .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  nav .brand-box { width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3); }
+  nav .brand-box img { width: 52px; height: 40px; border-radius: 12px; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 140px 24px 80px; }
+
+  .hero { text-align: center; margin-bottom: 44px; }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #6EE7B7; margin-bottom: 14px;
+  }
+  .hero .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4); }
+  .hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: #e8e8f0; }
+  .hero p { font-size: 0.98rem; color: #888899; max-width: 480px; margin: 14px auto 0; line-height: 1.6; }
+
+  .grid {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.15fr);
+    gap: 24px; align-items: start;
+  }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .panel { background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; overflow: hidden; }
+  .panel .accent { height: 3px; background: linear-gradient(90deg, #A78BFA, #C084FC, #7DD3FC); }
+  .panel-inner { padding: 28px; }
+  .panel-title { font-size: 0.98rem; font-weight: 800; color: #e8e8f0; margin-bottom: 4px; }
+  .panel-sub { font-size: 0.8rem; color: #888899; margin-bottom: 20px; line-height: 1.5; }
+
+  /* Kod giriş formu */
+  .lookup-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; display: block; margin-bottom: 10px; }
+  .lookup-row { display: flex; gap: 10px; }
+  .lookup-row input {
+    flex: 1; min-width: 0; padding: 15px 16px; border-radius: 14px;
+    background: rgba(10,10,15,0.6); border: 1px solid rgba(42,49,59,0.8);
+    color: #e8e8f0; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;
+    letter-spacing: 0.1em; text-transform: uppercase; transition: border-color 150ms;
+  }
+  .lookup-row input::placeholder { color: #555566; letter-spacing: 0.06em; }
+  .lookup-row input:focus { outline: none; border-color: rgba(167,139,250,0.6); }
+  .lookup-row button {
+    flex-shrink: 0; padding: 0 22px; border-radius: 14px; border: 0;
+    background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f;
+    font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    transition: opacity 150ms;
+  }
+  .lookup-row button:hover { opacity: 0.9; }
+  .lookup-row button:disabled { opacity: 0.5; cursor: default; }
+  .lookup-hint { font-size: 0.75rem; color: #666677; margin-top: 12px; line-height: 1.5; }
+  .lookup-error { font-size: 0.8rem; color: #FCA5A5; margin-top: 12px; display: none; }
+
+  .verified-box {
+    display: none; margin-top: 18px; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: 14px;
+    background: rgba(110,231,183,0.08); border: 1px solid rgba(110,231,183,0.25);
+  }
+  .verified-box .ic {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(110,231,183,0.14); border: 1px solid rgba(110,231,183,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .verified-box .txt-title { font-size: 0.86rem; font-weight: 700; color: #e8e8f0; }
+  .verified-box .txt-code { font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #A78BFA; margin-top: 2px; letter-spacing: 0.03em; }
+
+  .cross-link { font-size: 0.78rem; color: #666677; margin-top: 20px; text-align: center; }
+  .cross-link a { color: #A78BFA; text-decoration: none; font-weight: 600; }
+  .cross-link a:hover { text-decoration: underline; }
+
+  /* Sağ panel gate overlay */
+  .gate-wrap { position: relative; }
+  .gate-lock {
+    position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 24px; border-radius: 24px;
+    background: rgba(17,17,24,0.72); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    transition: opacity 200ms ease;
+  }
+  .gate-lock.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .gate-lock-inner { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .gate-lock-inner .ic {
+    width: 40px; height: 40px; border-radius: 50%; background: rgba(42,49,59,0.6);
+    border: 1px solid rgba(42,49,59,0.9); display: flex; align-items: center; justify-content: center;
+  }
+  .gate-lock-inner p { font-size: 0.82rem; color: #aaaabc; font-weight: 600; max-width: 200px; }
+  .gate-target[aria-disabled="true"] { filter: blur(1.5px) grayscale(0.3); opacity: 0.5; pointer-events: none; user-select: none; }
+  .gate-target { transition: filter 200ms, opacity 200ms; }
+
+  /* OS kartları */
+  .os-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  @media (max-width: 520px) {
+    .os-grid { grid-template-columns: 1fr; }
+  }
+  .os-card {
+    background: rgba(10,10,15,0.5); border: 1.5px solid rgba(42,49,59,0.8); border-radius: 18px;
+    padding: 20px 16px; text-align: center; cursor: pointer;
+    transition: border-color 180ms, background 180ms, box-shadow 180ms, transform 150ms;
+    font-family: inherit; color: inherit;
+  }
+  .os-card:hover { border-color: rgba(167,139,250,0.4); transform: translateY(-1px); }
+  .os-card.selected {
+    border-color: #A78BFA; background: rgba(167,139,250,0.08);
+    box-shadow: 0 0 0 3px rgba(167,139,250,0.15), 0 0 24px rgba(167,139,250,0.12);
+  }
+  .os-card .os-icon { width: 34px; height: 34px; margin: 0 auto 12px; color: #cfcfe0; transition: color 180ms; }
+  .os-card.selected .os-icon { color: #C084FC; }
+  .os-card .os-name { font-size: 0.92rem; font-weight: 700; color: #e8e8f0; }
+  .os-card .os-meta { font-size: 0.74rem; color: #888899; margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+  .os-card .os-meta.err { color: #FCA5A5; font-family: inherit; }
+
+  .dl-btn {
+    width: 100%; padding: 17px; border-radius: 14px; border: 0;
+    background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f;
+    font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    transition: opacity 150ms, transform 150ms; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .dl-btn:hover:not(:disabled) { opacity: 0.9; }
+  .dl-btn:active:not(:disabled) { transform: scale(0.99); }
+  .dl-btn:disabled { opacity: 0.35; cursor: default; background: rgba(167,139,250,0.25); color: rgba(10,10,15,0.6); }
+
+  .req-block { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(42,49,59,0.5); }
+  .req-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; margin-bottom: 12px; }
+  .req-list { display: flex; flex-direction: column; gap: 10px; }
+  .req-item { display: flex; align-items: flex-start; gap: 10px; }
+  .req-item .ic { width: 20px; height: 20px; flex-shrink: 0; color: #A78BFA; margin-top: 1px; }
+  .req-item .txt { font-size: 0.82rem; color: #aaaabc; line-height: 1.5; }
+  .req-item .txt b { color: #e8e8f0; font-weight: 600; }
+
+  footer {
+    padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: center; justify-content: space-between; font-size: 0.82rem;
+    color: #555566; border-top: 1px solid rgba(42,49,59,0.3); max-width: 1040px; margin: 0 auto;
+  }
+  footer .brand { display: flex; align-items: center; gap: 8px; }
+  footer .brand img { width: 18px; height: 18px; border-radius: 4px; }
+  footer a { color: #555566; text-decoration: none; transition: color 150ms; }
+  footer a:hover { color: #e8e8f0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="brand" href="index.html">
+      <span class="brand-box"><img src="assets/sadik-mark.png" alt=""></span>
+    </a>
+    <a href="index.html#features">Uygulama</a>
+    <a href="index.html#pricing">Fiyatlandırma</a>
+    <a href="track.html">Sipariş Takibi</a>
+    <a href="download.html">İndir</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <span class="eyebrow"><span></span>İNDİRME</span>
+    <h1>SADIK'ı indir</h1>
+    <p>Sipariş kodunu doğrula, işletim sistemini seç ve uygulamayı bilgisayarına indir.</p>
+  </div>
+
+  <div class="grid">
+    <!-- SOL: Sipariş kodu doğrulama -->
+    <div class="panel">
+      <div class="accent"></div>
+      <div class="panel-inner">
+        <div class="panel-title">Sipariş kodu</div>
+        <div class="panel-sub">İndirmeyi açmak için önce sipariş kodunu doğrula.</div>
+
+        <label class="lookup-label" for="code-input">Sipariş Kodu</label>
+        <div class="lookup-row">
+          <input id="code-input" type="text" autocomplete="off" spellcheck="false" placeholder="Örn. SADIK-XXXXXXXX" maxlength="32">
+          <button id="verify-btn" type="button">Doğrula</button>
+        </div>
+        <p class="lookup-hint">Sipariş kodun, satın alımından sonra e-posta adresine gönderilir. Kodu bulamıyorsan spam / gereksiz klasörünü kontrol et.</p>
+        <p class="lookup-error" id="lookup-error"></p>
+
+        <div class="verified-box" id="verified-box">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+          <div>
+            <div class="txt-title">Kod doğrulandı</div>
+            <div class="txt-code" id="verified-order-id"></div>
+          </div>
+        </div>
+
+        <div class="cross-link">Siparişini mi takip etmek istiyorsun? <a href="track.html">Sipariş takibine git →</a></div>
+      </div>
+    </div>
+
+    <!-- SAĞ: Sürüm seçimi -->
+    <div class="panel gate-wrap">
+      <div class="accent"></div>
+      <div class="panel-inner gate-target" id="gate-target" aria-disabled="true">
+        <div class="panel-title">Sürümü seç</div>
+        <div class="panel-sub">İşletim sistemine göre en son sürümü indir.</div>
+
+        <div class="os-grid">
+          <button class="os-card" id="os-win" type="button" data-os="win" disabled>
+            <svg class="os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5 10.5 4.4v7.1H3zm0 13L10.5 19.6v-7.1H3zM11.5 4.3 21 3v8.5h-9.5zm0 8.2H21V21l-9.5-1.3z"></path></svg>
+            <div class="os-name">Windows</div>
+            <div class="os-meta" id="win-meta">Sürüm bilgisi yükleniyor…</div>
+          </button>
+          <button class="os-card" id="os-mac" type="button" data-os="mac" disabled>
+            <svg class="os-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.365 1.43c0 1.14-.417 2.05-1.25 2.73-.833.68-1.717 1.02-2.65 1.02-.05-1.11.32-2.03 1.11-2.75.79-.72 1.72-1.09 2.79-1.1zM20.5 17.02c-.42.98-.94 1.86-1.57 2.65-.87 1.1-1.74 1.65-2.62 1.65-.6 0-1.35-.2-2.24-.6-.9-.4-1.72-.6-2.47-.6-.79 0-1.63.2-2.53.6-.9.4-1.63.62-2.19.65-.83.03-1.7-.53-2.62-1.68-.75-.94-1.35-1.96-1.8-3.08-.5-1.24-.75-2.44-.75-3.6 0-1.33.29-2.48.87-3.44a5.1 5.1 0 0 1 1.83-1.87 4.9 4.9 0 0 1 2.47-.72c.62 0 1.44.24 2.47.71 1.02.47 1.68.71 1.97.71.22 0 .81-.28 1.77-.83 1-.58 1.85-.82 2.55-.72 1.88.15 3.29.9 4.23 2.25-1.68 1.02-2.51 2.44-2.5 4.27.01 1.44.53 2.65 1.56 3.6.46.44.98.78 1.56 1.03-.13.36-.26.7-.4 1.02z"></path></svg>
+            <div class="os-name">macOS</div>
+            <div class="os-meta" id="mac-meta">Sürüm bilgisi yükleniyor…</div>
+          </button>
+        </div>
+
+        <button class="dl-btn" id="download-btn" type="button" disabled>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+          <span id="download-label">Önce sürüm seç</span>
+        </button>
+
+        <div class="req-block" id="req-block">
+          <div class="req-title">Sistem gereksinimleri — Windows</div>
+          <div class="req-list" id="req-list"></div>
+        </div>
+      </div>
+
+      <div class="gate-lock" id="gate-lock">
+        <div class="gate-lock-inner">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaaabc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+          <p>Önce sipariş kodunu doğrula</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="brand">
+    <img src="assets/sadik-mark.png" alt="">
+    <span>© 2026 SADIK</span>
+  </div>
+  <div style="display:flex; gap:24px;">
+    <a href="index.html#pricing">Fiyatlandırma</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="updates.html">Güncellemeler</a>
+    <a href="track.html">Sipariş Takibi</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var WIN_API = 'https://api.github.com/repos/ntrch/sadik-releases-win/releases/latest';
+  var MAC_API = 'https://api.github.com/repos/ntrch/sadik-releases-mac/releases/latest';
+  var WIN_FALLBACK = 'https://github.com/ntrch/sadik-releases-win/releases/latest';
+  var MAC_FALLBACK = 'https://github.com/ntrch/sadik-releases-mac/releases/latest';
+
+  var REQS = {
+    win: {
+      title: 'Windows',
+      items: [
+        { icon: 'monitor', text: '<b>İşletim sistemi:</b> Windows 10 veya üzeri (64-bit)' },
+        { icon: 'cpu', text: '<b>Bellek:</b> En az 8 GB RAM (16 GB önerilir)' },
+        { icon: 'hard-drive', text: '<b>Disk:</b> En az 2 GB boş alan (yerel yapay zekâ modeli için ek ~5 GB önerilir)' },
+        { icon: 'wifi', text: '<b>İnternet:</b> İlk kurulum ve güncellemeler için gerekli' }
+      ]
+    },
+    mac: {
+      title: 'macOS',
+      items: [
+        { icon: 'monitor', text: '<b>İşletim sistemi:</b> macOS 12 Monterey veya üzeri' },
+        { icon: 'cpu', text: '<b>İşlemci:</b> Apple Silicon (M1, M2, M3, M4)' },
+        { icon: 'cpu', text: '<b>Bellek:</b> En az 8 GB RAM (16 GB önerilir)' },
+        { icon: 'hard-drive', text: '<b>Disk:</b> En az 2 GB boş alan (yerel yapay zekâ modeli için ek ~5 GB önerilir)' }
+      ]
+    }
+  };
+
+  var input = document.getElementById('code-input');
+  var verifyBtn = document.getElementById('verify-btn');
+  var errEl = document.getElementById('lookup-error');
+  var verifiedBox = document.getElementById('verified-box');
+  var verifiedOrderId = document.getElementById('verified-order-id');
+
+  var gateLock = document.getElementById('gate-lock');
+  var gateTarget = document.getElementById('gate-target');
+  var osWin = document.getElementById('os-win');
+  var osMac = document.getElementById('os-mac');
+  var winMeta = document.getElementById('win-meta');
+  var macMeta = document.getElementById('mac-meta');
+  var downloadBtn = document.getElementById('download-btn');
+  var downloadLabel = document.getElementById('download-label');
+  var reqTitle = document.querySelector('#req-block .req-title');
+  var reqList = document.getElementById('req-list');
+
+  var codeVerified = false;
+  var selectedOs = null;
+  var assets = { win: null, mac: null }; // { url, version, size }
+
+  function normalize(raw) {
+    return (raw || '').trim().toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  }
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : String(s);
+    return d.innerHTML;
+  }
+
+  function showError(msg) {
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    verifiedBox.style.display = 'none';
+  }
+
+  function clearError() {
+    errEl.style.display = 'none';
+    errEl.textContent = '';
+  }
+
+  function setVerified(order) {
+    codeVerified = true;
+    clearError();
+    verifiedOrderId.textContent = order && order.orderId ? order.orderId : '';
+    verifiedBox.style.display = 'flex';
+    gateLock.classList.add('hidden');
+    gateTarget.setAttribute('aria-disabled', 'false');
+    osWin.disabled = false;
+    osMac.disabled = false;
+    updateDownloadState();
+  }
+
+  function verify() {
+    var code = normalize(input.value);
+    clearError();
+
+    if (!code || code.length < 4) {
+      showError('Lütfen geçerli bir sipariş kodu gir.');
+      return;
+    }
+
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = '...';
+
+    fetch('orders/' + code + '.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('not found');
+        return r.json();
+      })
+      .then(function (order) {
+        setVerified(order);
+      })
+      .catch(function () {
+        showError('Bu koda ait bir sipariş bulunamadı. Kodu doğru girdiğinden emin ol.');
+      })
+      .finally(function () {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'Doğrula';
+      });
+  }
+
+  verifyBtn.addEventListener('click', verify);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') verify();
+  });
+
+  // ?code=XXXX ile gelen doğrudan bağlantıları otomatik doğrula
+  var params = new URLSearchParams(window.location.search);
+  var pre = params.get('code');
+  if (pre) {
+    input.value = normalize(pre);
+    verify();
+  }
+
+  // --- Sürüm çözümleme (GitHub API) ---
+  function cleanVersion(tag, suffix) {
+    if (!tag) return '';
+    var v = String(tag).trim();
+    if (v.charAt(0).toLowerCase() === 'v') v = v.slice(1);
+    var suf = '-' + suffix;
+    if (v.toLowerCase().endsWith(suf)) v = v.slice(0, v.length - suf.length);
+    return v;
+  }
+
+  function formatMB(bytes) {
+    if (!bytes) return '';
+    return Math.round(bytes / 1048576) + ' MB';
+  }
+
+  function loadRelease(api, matcher, suffix, metaEl, osKey) {
+    fetch(api, { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('bad response');
+        return r.json();
+      })
+      .then(function (rel) {
+        var asset = (rel.assets || []).find(matcher);
+        if (!asset) throw new Error('no asset');
+        var version = cleanVersion(rel.tag_name || rel.name, suffix);
+        assets[osKey] = { url: asset.browser_download_url, version: version, size: asset.size };
+        metaEl.textContent = 'Sürüm ' + version + (asset.size ? ' · ' + formatMB(asset.size) : '');
+      })
+      .catch(function () {
+        metaEl.textContent = 'Sürüm bilgisi alınamadı';
+        metaEl.classList.add('err');
+      });
+  }
+
+  loadRelease(WIN_API, function (a) { return /\.exe$/i.test(a.name); }, 'win', winMeta, 'win');
+  loadRelease(MAC_API, function (a) { return a.name === 'SADIK-mac-arm64.dmg'; }, 'mac', macMeta, 'mac');
+
+  // --- OS seçimi ---
+  function selectOs(osKey) {
+    if (!codeVerified) return;
+    selectedOs = osKey;
+    osWin.classList.toggle('selected', osKey === 'win');
+    osMac.classList.toggle('selected', osKey === 'mac');
+    renderRequirements(osKey);
+    updateDownloadState();
+  }
+
+  osWin.addEventListener('click', function () { selectOs('win'); });
+  osMac.addEventListener('click', function () { selectOs('mac'); });
+
+  function renderRequirements(osKey) {
+    var spec = REQS[osKey] || REQS.win;
+    reqTitle.textContent = 'Sistem gereksinimleri — ' + spec.title;
+    reqList.innerHTML = spec.items.map(function (item) {
+      return '<div class="req-item"><span class="ic"><i data-lucide="' + item.icon + '" style="width:18px;height:18px"></i></span><span class="txt">' + item.text + '</span></div>';
+    }).join('');
+    if (window.lucide) window.lucide.createIcons();
+  }
+  renderRequirements('win');
+
+  function updateDownloadState() {
+    var ready = codeVerified && selectedOs;
+    downloadBtn.disabled = !ready;
+    if (!codeVerified) {
+      downloadLabel.textContent = 'Önce sürüm seç';
+    } else if (!selectedOs) {
+      downloadLabel.textContent = 'Önce sürüm seç';
+    } else {
+      downloadLabel.textContent = selectedOs === 'win' ? 'Windows için indir' : 'macOS için indir';
+    }
+  }
+  updateDownloadState();
+
+  downloadBtn.addEventListener('click', function () {
+    if (!codeVerified || !selectedOs) return;
+    var info = assets[selectedOs];
+    var url = info && info.url ? info.url : (selectedOs === 'win' ? WIN_FALLBACK : MAC_FALLBACK);
+    var a = document.createElement('a');
+    a.href = url;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+})();
+</script>
+
+</body>
+</html>
