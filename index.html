@@ -382,7 +382,8 @@
       <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6EE7B7; margin-bottom: 12px;">
         <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
         İLK PARTİ FİYATLANDIRMASI</span>
-      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0;">Erken destekçilere özel fiyat</h2>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0; margin-bottom: 12px;">İlk Parti Ön Sipariş</h2>
+      <span style="display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; color: #6EE7B7; background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25); border-radius: 999px; padding: 5px 14px;">İlk 200 adet</span>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: stretch; flex-wrap: wrap;">
@@ -394,9 +395,10 @@
           <span style="font-size: 2.8rem; font-weight: 900; letter-spacing: -0.03em; color: #e8e8f0;">{{ currentPrice }}</span>
           <span style="font-size: 0.95rem; color: #555566; text-decoration: line-through;">{{ originalPrice }}</span>
         </div>
-        <p style="font-size: 0.78rem; color: #666677; margin-bottom: 28px;">Tek seferlik ödeme</p>
+        <p style="font-size: 0.78rem; color: #666677; margin-bottom: 4px;">Tek seferlik ödeme</p>
+        <p style="font-size: 0.74rem; color: #A78BFA; margin-bottom: 28px;">Ön sipariş avantajı • {{ currentPrice }}</p>
 
-        
+
         <!-- Renk seçimi -->
         <div style="margin-bottom: 20px;">
           <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; display: block; margin-bottom: 10px;">Renk</span>
@@ -416,32 +418,61 @@
           </div>
         </div>
 
-        <!-- Features list -->
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
-          
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <!-- Sipariş Bilgileri -->
+        <div style="margin-bottom: 28px;">
+          <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; display: block; margin-bottom: 12px;">Sipariş Bilgileri</span>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6h4"></path></svg>
+              </div>
+              <div>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 2px;">Ön sipariş ürünü</p>
+                <p style="font-size: 0.76rem; color: #888899; line-height: 1.4;">En geç 30 iş günü içerisinde hazırlanıp kargoya verilir.</p>
+              </div>
             </div>
-            <span style="font-size: 0.85rem; color: #aaaabc;">Ücretsiz kargo ve takip</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+              </div>
+              <div>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 2px;">Kutu İçeriği</p>
+                <p style="font-size: 0.76rem; color: #888899; line-height: 1.4;">1× SADIK® MINI · 1× Aktivasyon Rehberi · 1× Ekran Montaj Mıknatısı</p>
+              </div>
             </div>
-            <span style="font-size: 0.85rem; color: #aaaabc;">Erken erişim ve öncelikli destek</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1-2-2V5h6v2a2 2 0 0 1-2 2Z"></path><path d="M3 5V3"></path><path d="M7 5V3"></path><path d="M19 15a2 2 0 0 1 2 2v2h-6v-2a2 2 0 0 1 2-2Z"></path><path d="M17 21v-2"></path><path d="M21 21v-2"></path><path d="M6 13v-2a6 6 0 0 1 12 0v2"></path></svg>
+              </div>
+              <div>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 2px;">USB Type-C kablosu dahil değildir</p>
+                <p style="font-size: 0.76rem; color: #888899; line-height: 1.4;">Harici bir USB Type-C kablosu gerektirir.</p>
+              </div>
             </div>
-            <span style="font-size: 0.85rem; color: #aaaabc;">Windows ve macOS desteği</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 18px; height: 18px; border-radius: 5px; background: rgba(110,231,183,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+              </div>
+              <div>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 2px;">Uyumluluk</p>
+                <p style="font-size: 0.76rem; color: #888899; line-height: 1.4;">Windows ve macOS</p>
+              </div>
             </div>
-            <span style="font-size: 0.85rem; color: #aaaabc;">Gelecek güncellemeler dahil</span>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
+              </div>
+              <div>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 2px;">Yazılım Güncellemeleri</p>
+                <p style="font-size: 0.76rem; color: #888899; line-height: 1.4;">Tüm gelecek yazılım güncellemeleri dahildir.</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -456,14 +487,24 @@
           </div>
         </div>
 
+        <!-- Ön sipariş bilgi kutusu -->
+        <div style="display: flex; align-items: flex-start; gap: 10px; background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.12); border-radius: 14px; padding: 12px 14px; margin-bottom: 16px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          <p style="font-size: 0.74rem; color: #aaaabc; line-height: 1.45; margin: 0;">Bu ürün stoktan gönderilmez. Siparişiniz üretim sürecine alınır ve en geç 30 iş günü içerisinde kargoya verilir.</p>
+        </div>
+
         <sc-if value="{{ bothSelected }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ goToCheckout }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; transition: opacity 150ms;" style-hover="opacity: 0.9" type="button">{{ checkoutLabel }}</button>
+          <button onClick="{{ openPreorderModal }}" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; transition: opacity 150ms; display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.2;" style-hover="opacity: 0.9" type="button">
+            <span>{{ checkoutLabel }}</span>
+            <span style="font-size: 0.7rem; font-weight: 600; opacity: 0.7;">Tahmini sevkiyat: En geç 30 iş günü</span>
+          </button>
         </sc-if>
         <sc-if value="{{ notBothSelected }}" hint-placeholder-val="{{ true }}">
           <button disabled="true" style="width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: not-allowed; border: 0; background: rgba(167,139,250,0.2); color: rgba(232,232,240,0.45); font-family: inherit;" type="button">Ön sipariş ver</button>
           <p style="font-size: 0.7rem; color: #FCD34D; text-align: center; margin-top: 10px;">{{ selectionHint }}</p>
         </sc-if>
-        <p style="font-size: 0.7rem; color: #c5c5c5; text-align: center; margin-top: 10px">Ödeme Stripe altyapısıyla güvenle işlenir.</p>
+        <p style="font-size: 0.7rem; color: #666677; text-align: center; margin-top: 10px">Ön sipariş koşullarını ve teslimat sürecini bir sonraki adımda inceleyip onaylayacaksınız.</p>
+        <p style="font-size: 0.7rem; color: #c5c5c5; text-align: center; margin-top: 6px">Ödeme Stripe altyapısıyla güvenle işlenir.</p>
         <p style="font-size: 0.72rem; text-align: center; margin-top: 8px"><a href="track.html" style="color: #A78BFA; text-decoration: none; font-weight: 600;" style-hover="text-decoration: underline">Siparişin var mı? Takip et →</a></p>
       </div>
     </div>
@@ -912,6 +953,99 @@
 </sc-if>
 
 
+<!-- ============ PREORDER INFO MODAL ============ -->
+<sc-if value="{{ showPreorderModal }}">
+  <div style="position: fixed; inset: 0; z-index: 230; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 200ms ease-out;" onClick="{{ closePreorderBackdrop }}">
+    <div style="background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; position: relative; padding: 28px;" onClick="{{ stopProp }}">
+
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #e8e8f0;">Ön Sipariş Bilgilendirmesi</h3>
+      </div>
+
+      <p style="font-size: 0.82rem; color: #aaaabc; line-height: 1.55; margin-bottom: 20px;">Bu ürün hazır stokta bulunan bir ürün değildir. "Ön Sipariş Ver" butonuna devam ederek aşağıdaki hususları okuduğunuzu ve kabul ettiğinizi onaylamış olursunuz.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 22px;">
+
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <div style="width: 30px; height: 30px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6h4"></path></svg>
+          </div>
+          <div>
+            <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 6px;">Ön Sipariş Koşulları</p>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Satın aldığınız ürün SADIK® MINI için bir ön siparıştir.</li>
+              <li style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Ürün siparişiniz alındıktan sonra üretim, kalite kontrol ve paketleme süreçlerine alınacaktır.</li>
+              <li style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Siparişinizin en geç 30 iş günü içerisinde kargoya verilmesi hedeflenmektedir.</li>
+              <li style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Yoğun talep, üretim süreci veya tedarik kaynaklı gecikmeler yaşanabilir. Böyle bir durumda tarafınıza bilgi verilecektir.</li>
+              <li style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Tahmini sevkiyat tarihi garanti edilen teslim tarihi değildir.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <div style="width: 30px; height: 30px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+          </div>
+          <div>
+            <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 6px;">Kutu İçeriği</p>
+            <p style="font-size: 0.78rem; color: #888899; line-height: 1.5; margin-bottom: 8px;">1× SADIK® MINI · 1× Aktivasyon Rehberi · 1× Ekran Montaj Mıknatısı</p>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1-2-2V5h6v2a2 2 0 0 1-2 2Z"></path><path d="M3 5V3"></path><path d="M7 5V3"></path><path d="M19 15a2 2 0 0 1 2 2v2h-6v-2a2 2 0 0 1 2-2Z"></path><path d="M17 21v-2"></path><path d="M21 21v-2"></path><path d="M6 13v-2a6 6 0 0 1 12 0v2"></path></svg>
+              <span style="font-size: 0.76rem; color: #888899;">USB Type-C kablosu kutuya dahil değildir.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <div style="width: 30px; height: 30px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+          </div>
+          <div>
+            <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 6px;">Yazılım</p>
+            <p style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Satın alma bedeline mevcut yazılım, yayınlanacak güncellemeler, Windows ve macOS desteği dahildir.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <div style="width: 30px; height: 30px; border-radius: 9px; background: rgba(167,139,250,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          </div>
+          <div>
+            <p style="font-size: 0.85rem; font-weight: 700; color: #e8e8f0; margin-bottom: 6px;">İptal ve İade</p>
+            <p style="font-size: 0.78rem; color: #888899; line-height: 1.5;">Yasal haklarınız saklıdır. Ön sipariş süreci ve teslimattan sonra uygulanacak iptal ve iade koşulları Mesafeli Satış Sözleşmesi ve Ön Bilgilendirme Formu kapsamında ayrıca sunulacaktır.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Zorunlu onay -->
+      <div onClick="{{ togglePreorderConsent }}" style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 14px; border-radius: 14px; background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.12); margin-bottom: 20px;">
+        <div style="width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 150ms; background: {{ consentBoxBg }}; border: 2px solid {{ consentBoxBorder }};">
+          <sc-if value="{{ preorderConsentChecked }}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </sc-if>
+        </div>
+        <p style="font-size: 0.76rem; color: #aaaabc; line-height: 1.5; margin: 0;">Yukarıdaki ön sipariş koşullarını okudum. Satın aldığım ürünün hazır stok ürünü olmadığını, USB Type-C kablosunun kutuya dahil olmadığını, ürünün ön sipariş kapsamında üretileceğini ve sevkiyatın hedeflenen süresinin en geç 30 iş günü olduğunu anladığımı ve bu koşulları kabul ederek devam ettiğimi beyan ederim.</p>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button onClick="{{ closePreorder }}" style="flex: 1; padding: 14px; border-radius: 14px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #888899; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0" type="button">Vazgeç</button>
+        <sc-if value="{{ preorderConsentChecked }}">
+          <button onClick="{{ confirmPreorder }}" style="flex: 1.4; padding: 14px; border-radius: 14px; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; transition: opacity 150ms;" style-hover="opacity: 0.9" type="button">Okudum ve Devam Et</button>
+        </sc-if>
+        <sc-if value="{{ preorderConsentUnchecked }}">
+          <button disabled="true" style="flex: 1.4; padding: 14px; border-radius: 14px; font-size: 0.88rem; font-weight: 700; cursor: not-allowed; border: 0; background: rgba(167,139,250,0.2); color: rgba(232,232,240,0.45); font-family: inherit;" type="button">Okudum ve Devam Et</button>
+        </sc-if>
+      </div>
+
+    </div>
+  </div>
+</sc-if>
+
+
 <!-- ============ ORDER SUCCESS MODAL (Stripe redirect) ============ -->
 <sc-if value="{{ showSuccessModal }}">
   <div style="position: fixed; inset: 0; z-index: 220; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 200ms ease-out;" onClick="{{ closeSuccessBackdrop }}">
@@ -960,6 +1094,8 @@ class Component extends DCLogic {
     showSuccessModal: false,
     roadmapRangeIdx: 1,
     completedOpen: true,
+    showPreorderModal: false,
+    preorderConsent: false,
   };
 
   prices = {
@@ -1283,6 +1419,29 @@ class Component extends DCLogic {
       showSuccessModal: this.state.showSuccessModal,
       closeSuccess: () => this.setState({ showSuccessModal: false }),
       closeSuccessBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ showSuccessModal: false }); },
+
+      // Ön sipariş bilgilendirme modalı
+      showPreorderModal: this.state.showPreorderModal,
+      preorderConsentChecked: this.state.preorderConsent,
+      preorderConsentUnchecked: !this.state.preorderConsent,
+      consentBoxBg: this.state.preorderConsent ? '#A78BFA' : 'transparent',
+      consentBoxBorder: this.state.preorderConsent ? '#A78BFA' : 'rgba(167,139,250,0.4)',
+      openPreorderModal: () => this.setState({ showPreorderModal: true, preorderConsent: false }),
+      closePreorder: () => this.setState({ showPreorderModal: false, preorderConsent: false }),
+      closePreorderBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ showPreorderModal: false, preorderConsent: false }); },
+      togglePreorderConsent: () => this.setState(s => ({ preorderConsent: !s.preorderConsent })),
+      confirmPreorder: () => {
+        if (!this.state.preorderConsent) return;
+        var links = {
+          black: 'https://buy.stripe.com/fZu8wPeVd3Go02r2LA4wM01',
+          white: 'https://buy.stripe.com/6oUfZhbJ1el27uT71Q4wM02',
+        };
+        var color = this.state.color;
+        var pos = mountType === 'top' ? 'up' : 'side';
+        var base = links[color];
+        if (!base) return;
+        window.location.href = base + '?client_reference_id=' + color + '-' + pos;
+      },
 
       currentPrice,
       originalPrice,
