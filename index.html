@@ -941,10 +941,10 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
           </div>
           <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">Siparişin alındı!</h3>
-          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Teşekkürler. Uygulamayı hemen indirebilir, aktivasyon detaylarını e-postandan da takip edebilirsin.</p>
-          <a href="download.html?code={{ orderCode }}" style="display: block; width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; text-decoration: none; margin-bottom: 12px;" style-hover="opacity: 0.88">Uygulamayı indir →</a>
+          <p style="font-size: 0.85rem; color: #888899; margin-bottom: 2rem;">Teşekkürler. Sipariş ve aktivasyon kodun e-postana gönderilecek; uygulamayı indirme sayfasından o kodla indirebilirsin.</p>
+          <a href="download.html" style="display: block; width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f; font-family: inherit; text-decoration: none; margin-bottom: 12px;" style-hover="opacity: 0.88">İndirme sayfasına git →</a>
           <div style="padding: 16px; border-radius: 14px; border: 1px solid rgba(42,49,59,0.5); background: rgba(167,139,250,0.06); font-size: 0.85rem; color: #b8b8c8; line-height: 1.5;">
-            İndirme sayfasında sipariş kodunu doğrulaman istenecek — kodun yukarıda görüntülendi, e-postana da gönderildi.
+            İndirme sayfasında sipariş kodunu doğrulaman istenecek — kodun e-postana gönderildi.
           </div>
           <button onClick="{{ closePurchase }}" style="margin-top: 12px; padding: 10px 20px; border-radius: 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #666677; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0">Kapat</button>
         </div>
@@ -1059,16 +1059,15 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" style="stroke-dasharray: 24; animation: checkmark 600ms ease-out forwards;"></polyline></svg>
       </div>
       <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Siparişin alındı!</h3>
-      <p style="font-size: 0.88rem; color: #888899; margin-bottom: 1.5rem; line-height: 1.6;">Ödemen başarıyla tamamlandı. SADIK yola çıkmaya hazırlanıyor — detaylar e-postana da gönderildi.</p>
-      <div style="background: #000; border: 1px solid rgba(167,139,250,0.25); border-radius: 14px; padding: 18px; margin-bottom: 1.25rem; box-shadow: 0 0 16px rgba(167,139,250,0.08);">
-        <p style="font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #666677; margin-bottom: 6px;">Sipariş / Aktivasyon Kodu</p>
-        <p style="font-size: 1.4rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; color: #A78BFA;">{{ orderCode }}</p>
+      <p style="font-size: 0.88rem; color: #888899; margin-bottom: 1.5rem; line-height: 1.6;">Ödemen başarıyla tamamlandı. SADIK yola çıkmaya hazırlanıyor.</p>
+      <div style="text-align: left; border: 1px solid rgba(167,139,250,0.2); background: rgba(167,139,250,0.06); border-radius: 14px; padding: 16px 18px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #b8b8c8; line-height: 1.55;">
+        Sipariş ve aktivasyon kodun kısa süre içinde <b style="color:#e8e8f0;">e-posta adresine</b> gönderilecek. Uygulamayı indirip aktive etmek için bu kodu kullanacaksın. Birkaç dakikada gelmezse spam / gereksiz klasörünü de kontrol et.
       </div>
       <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.74rem; color: #6EE7B7; margin-bottom: 1.5rem;">
         <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
         Batch 1 stoğu güncellendi — {{ stockRemaining }} / {{ stockTotal }} kaldı
       </div>
-      <a href="download.html?code={{ orderCode }}" style="display: block; width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit; text-decoration: none; margin-bottom: 10px;" style-hover="opacity: 0.88">Uygulamayı indir →</a>
+      <a href="download.html" style="display: block; width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit; text-decoration: none; margin-bottom: 10px;" style-hover="opacity: 0.88">İndirme sayfasına git →</a>
       <button onClick="{{ closeSuccess }}" style="width: 100%; padding: 12px; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #666677; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0">Şimdi değil</button>
     </div>
   </div>
