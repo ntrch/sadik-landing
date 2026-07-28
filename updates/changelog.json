@@ -4,10 +4,19 @@
   },
   "releases": [
     {
+      "appVersion": "0.7.56",
+      "firmwareVersion": "0.8.39",
+      "date": "2026-07-24",
+      "status": "current",
+      "title": "Performans İyileştirmeleri & Bug Fixing",
+      "summary": "İçerikler güncellendi, kararlılık arttırıldı.",
+      "entries": []
+    },
+    {
       "appVersion": "0.7.42",
       "firmwareVersion": "0.8.18",
       "date": "2026-07-10",
-      "status": "current",
+      "status": "previous",
       "title": "Değerli Taşlar",
       "summary": "Renk temaların artık gemstone isimleriyle seçilebiliyor, pencere tamamen yenilendi.",
       "entries": [
