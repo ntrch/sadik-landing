@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SADIK — macOS Güncellemesi</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; max-width: 100%; }
+  body {
+    background: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: center; padding-top: 16px; pointer-events: none;
+  }
+  nav {
+    display: flex; align-items: center; gap: clamp(16px, 3vw, 32px);
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(42,49,59,0.5);
+    border-radius: 9999px;
+    padding: 10px 28px;
+    pointer-events: auto;
+  }
+  nav a { color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms; }
+  nav a:hover { color: #e8e8f0; }
+  nav .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  nav .brand-box { width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3); }
+  nav .brand-box img { width: 52px; height: 40px; border-radius: 12px; }
+
+  main { max-width: 640px; margin: 0 auto; padding: 140px 24px 80px; }
+
+  .hero { text-align: center; margin-bottom: 32px; }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #6EE7B7; margin-bottom: 14px;
+  }
+  .hero .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4); }
+  .hero h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; color: #e8e8f0; }
+  .hero p { font-size: 0.95rem; color: #888899; max-width: 460px; margin: 14px auto 0; line-height: 1.6; }
+
+  .panel { background: #111118; border: 1px solid rgba(42,49,59,0.5); border-radius: 24px; overflow: hidden; }
+  .panel .accent { height: 3px; background: linear-gradient(90deg, #A78BFA, #C084FC, #7DD3FC); }
+  .panel-inner { padding: 28px; }
+
+  .ver-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .ver-block .ver-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; }
+  .ver-block .ver-value { font-size: 1.05rem; font-weight: 700; color: #e8e8f0; font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+  .ver-block .ver-value.next { color: #C084FC; }
+  .ver-block .ver-value.err { color: #FCA5A5; font-family: inherit; font-size: 0.85rem; font-weight: 600; }
+  .ver-sep { color: #444455; font-size: 1.2rem; }
+
+  .dl-btn {
+    width: 100%; padding: 17px; border-radius: 14px; border: 0;
+    background: linear-gradient(90deg, #A78BFA, #C084FC); color: #0a0a0f;
+    font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    transition: opacity 150ms, transform 150ms; display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none;
+  }
+  .dl-btn:hover:not(.disabled) { opacity: 0.9; }
+  .dl-btn:active:not(.disabled) { transform: scale(0.99); }
+  .dl-btn.disabled { opacity: 0.35; cursor: default; background: rgba(167,139,250,0.25); color: rgba(10,10,15,0.6); pointer-events: none; }
+  .dl-sub { font-size: 0.75rem; color: #666677; text-align: center; margin-top: 10px; }
+
+  .steps { margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(42,49,59,0.5); }
+  .steps-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666677; margin-bottom: 14px; }
+  .step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+  .step:last-child { margin-bottom: 0; }
+  .step .num {
+    width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+    background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3);
+    color: #C084FC; font-size: 0.72rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .step .txt { font-size: 0.85rem; color: #aaaabc; line-height: 1.55; }
+  .step .txt b { color: #e8e8f0; font-weight: 600; }
+
+  .note {
+    margin-top: 22px; padding: 14px 16px; border-radius: 14px;
+    background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2);
+    font-size: 0.8rem; color: #aaaabc; line-height: 1.55;
+  }
+  .note b { color: #e8e8f0; font-weight: 600; }
+
+  .cross-link { font-size: 0.78rem; color: #666677; margin-top: 24px; text-align: center; }
+  .cross-link a { color: #A78BFA; text-decoration: none; font-weight: 600; }
+  .cross-link a:hover { text-decoration: underline; }
+
+  footer {
+    padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: center; justify-content: space-between; font-size: 0.82rem;
+    color: #555566; border-top: 1px solid rgba(42,49,59,0.3); max-width: 1040px; margin: 0 auto;
+  }
+  footer .brand { display: flex; align-items: center; gap: 8px; }
+  footer .brand img { width: 18px; height: 18px; border-radius: 4px; }
+  footer a { color: #555566; text-decoration: none; transition: color 150ms; }
+  footer a:hover { color: #e8e8f0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="brand" href="index.html">
+      <span class="brand-box"><img src="assets/sadik-mark.png" alt=""></span>
+    </a>
+    <a href="index.html#features">Uygulama</a>
+    <a href="updates.html">Güncellemeler</a>
+    <a href="track.html">Sipariş Takibi</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <span class="eyebrow"><span></span>macOS GÜNCELLEMESİ</span>
+    <h1>Yeni sürümü indir</h1>
+    <p>macOS'ta SADIK kendini otomatik güncellemiyor — yeni sürümü buradan indirip mevcut uygulamanın üzerine kuruyorsun. Verilerin ve ayarların olduğu gibi kalır.</p>
+  </div>
+
+  <div class="panel">
+    <div class="accent"></div>
+    <div class="panel-inner">
+
+      <div class="ver-row">
+        <div class="ver-block" id="cur-block" style="display:none">
+          <div class="ver-label">Şu anki sürümün</div>
+          <div class="ver-value" id="cur-version">—</div>
+        </div>
+        <div class="ver-sep" id="ver-sep" style="display:none">→</div>
+        <div class="ver-block">
+          <div class="ver-label">Son sürüm</div>
+          <div class="ver-value next" id="new-version">yükleniyor…</div>
+        </div>
+      </div>
+
+      <a class="dl-btn disabled" id="dl-btn" href="#" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+        <span id="dl-label">Sürüm bilgisi alınıyor…</span>
+      </a>
+      <p class="dl-sub" id="dl-sub">Apple Silicon (M1 ve üzeri) · macOS 12 Monterey veya üzeri</p>
+
+      <div class="steps">
+        <div class="steps-title">Kurulum</div>
+        <div class="step">
+          <span class="num">1</span>
+          <span class="txt">Açık olan <b>SADIK</b> uygulamasından çık (menü çubuğundaki simgeden <b>Çık</b>).</span>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <span class="txt">İndirilen <b>.dmg</b> dosyasını aç ve SADIK'ı <b>Uygulamalar</b> klasörüne sürükle — <b>“Değiştir”</b> dediğinde eski sürümün üzerine yazılır.</span>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <span class="txt">İlk açılışta simgeye <b>çift tıklama</b> — <b>sağ tıklayıp “Aç”</b> de ve çıkan uyarıda tekrar <b>“Aç”</b>a bas. (macOS Sequoia ve üzerinde “Aç” çıkmazsa <b>Sistem Ayarları → Gizlilik ve Güvenlik</b> bölümünde en alttaki <b>“Yine de Aç”</b> düğmesini kullan.)</span>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>Neden elle?</b> macOS sürümü henüz Apple geliştirici sertifikasıyla imzalanmadığı için otomatik güncelleme çalışmıyor. Windows sürümü kendini otomatik günceller; mac'te imzalama tamamlanana kadar bu sayfa kullanılıyor.
+      </div>
+
+      <div class="cross-link">Bu sürümde ne değişti? <a href="updates.html">Sürüm notlarına bak →</a></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="brand">
+    <img src="assets/sadik-mark.png" alt="">
+    <span>© 2026 SADIK</span>
+  </div>
+  <div style="display:flex; gap:24px;">
+    <a href="index.html#pricing">Fiyatlandırma</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="updates.html">Güncellemeler</a>
+    <a href="download.html">İndir</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var MAC_API = 'https://api.github.com/repos/ntrch/sadik-releases-mac/releases/latest';
+  var MAC_FALLBACK = 'https://github.com/ntrch/sadik-releases-mac/releases/latest';
+  var DMG_NAME = 'SADIK-mac-arm64.dmg';
+
+  var dlBtn = document.getElementById('dl-btn');
+  var dlLabel = document.getElementById('dl-label');
+  var dlSub = document.getElementById('dl-sub');
+  var newVersion = document.getElementById('new-version');
+
+  // Uygulama bu sayfayı ?from=<sürüm> ile açıyor — kullanıcı neyden neye
+  // geçtiğini görsün. Elle gelindiyse blok gizli kalır.
+  var from = new URLSearchParams(window.location.search).get('from');
+  if (from && /^[0-9a-zA-Z.\-]{1,24}$/.test(from)) {
+    document.getElementById('cur-version').textContent = 'v' + from.replace(/^v/, '');
+    document.getElementById('cur-block').style.display = '';
+    document.getElementById('ver-sep').style.display = '';
+  }
+
+  function cleanVersion(tag) {
+    if (!tag) return '';
+    var v = String(tag).trim();
+    if (v.charAt(0).toLowerCase() === 'v') v = v.slice(1);
+    if (v.toLowerCase().slice(-4) === '-mac') v = v.slice(0, -4);
+    return v;
+  }
+  function formatMB(bytes) {
+    if (!bytes) return '';
+    return Math.round(bytes / 1048576) + ' MB';
+  }
+
+  function ready(url, version, size) {
+    dlBtn.href = url;
+    dlBtn.classList.remove('disabled');
+    dlLabel.textContent = version ? 'macOS için indir (v' + version + ')' : 'macOS için indir';
+    newVersion.textContent = version ? 'v' + version : '—';
+    dlSub.textContent = (size ? formatMB(size) + ' · ' : '') + 'Apple Silicon (M1 ve üzeri) · macOS 12 Monterey veya üzeri';
+  }
+
+  fetch(MAC_API, { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('bad response'); return r.json(); })
+    .then(function (rel) {
+      var asset = (rel.assets || []).find(function (a) { return a.name === DMG_NAME; });
+      if (!asset) throw new Error('no asset');
+      ready(asset.browser_download_url, cleanVersion(rel.tag_name || rel.name), asset.size);
+    })
+    .catch(function () {
+      // GitHub API'ye ulaşılamadı (rate limit / ağ) — kullanıcıyı boş bırakma,
+      // sürüm listesine yolla.
+      newVersion.textContent = 'Sürüm bilgisi alınamadı';
+      newVersion.classList.add('err');
+      dlBtn.href = MAC_FALLBACK;
+      dlBtn.classList.remove('disabled');
+      dlLabel.textContent = 'Sürüm listesini aç';
+    });
+})();
+</script>
+
+</body>
+</html>
