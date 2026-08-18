@@ -157,25 +157,104 @@
       opacity: 0.85;
       z-index: 3;
     }
+    .sadik-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: min(680px, calc(100vw - 32px));
+      min-height: 65px;
+      padding: 10px 14px;
+      pointer-events: auto;
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid rgba(42,49,59,0.5);
+      border-radius: 9999px;
+    }
+    .sadik-topbar-brand,
+    .sadik-topbar-link,
+    .sadik-topbar-action {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sadik-topbar-brand {
+      gap: 8px;
+      padding: 0 6px;
+      cursor: pointer;
+    }
+    .sadik-topbar-link {
+      color: #888899;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0 8px;
+      transition: color 150ms ease;
+    }
+    .sadik-topbar-link:hover,
+    .sadik-topbar-link:focus-visible {
+      color: #e8e8f0;
+    }
+    .sadik-topbar-action {
+      color: #e8e8f0;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 150ms ease;
+    }
+    .sadik-topbar-action:hover,
+    .sadik-topbar-action:focus-visible {
+      color: #ffffff;
+      background: rgba(167,139,250,0.14);
+      border-color: rgba(167,139,250,0.32);
+    }
+    .sadik-topbar-action:active {
+      transform: scale(0.96);
+    }
+    @media (max-width: 560px) {
+      .sadik-topbar {
+        width: min(420px, calc(100vw - 24px));
+        gap: 4px;
+        padding: 8px 10px;
+        border-radius: 28px;
+      }
+      .sadik-topbar-link,
+      .sadik-topbar-action {
+        font-size: 0.76rem;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       .sadik-lightbox-overlay { transition: none; }
+      .sadik-topbar-link,
+      .sadik-topbar-action { transition: none; }
     }
   </style>
 </helmet>
 
 <!-- ============ FLOATING PILL NAV ============ -->
 <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding-top: 16px; pointer-events: none;">
-  <nav style="display: flex; align-items: center; gap: clamp(16px, 3vw, 32px); background: rgba(10,10,15,0.75); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border: 1px solid rgba(42,49,59,0.5); border-radius: 9999px; padding: 10px 28px; pointer-events: auto; width: 344px; max-width: calc(100vw - 32px); height: 65px">
-    <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onClick="{{ scrollToTop }}">
+  <nav class="sadik-topbar" aria-label="Ana menü">
+    <div class="sadik-topbar-brand" onClick="{{ scrollToTop }}">
       <div style="width: 24px; height: 24px; border-radius: 7px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(167,139,250,0.3);">
         <img src="assets/sadik-mark.png" alt="" style="width: 52px; height: 40px; border-radius: 12px">
       </div>
       <span style="font-size: 0.9rem; font-weight: 800; letter-spacing: 0.08em; color: #e8e8f0; display: none">SADIK</span>
     </div>
-    <a href="#features" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">Uygulama</a>
-    <a href="#pricing" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">Fiyatlandırma</a><a href="#faq" style="color: #888899; text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 150ms;" style-hover="color: #e8e8f0">SSS</a>
-
-
+    <a href="#features" class="sadik-topbar-link">Uygulama</a>
+    <a href="#pricing" class="sadik-topbar-link">Fiyatlandırma</a>
+    <a href="#faq" class="sadik-topbar-link">SSS</a>
+    <a href="download.html" class="sadik-topbar-action">İndir</a>
+    <a href="track.html" class="sadik-topbar-action">Sipariş Takibi</a>
   </nav>
 </header>
 
@@ -381,9 +460,9 @@
     <div style="text-align: center; margin-bottom: 40px;">
       <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6EE7B7; margin-bottom: 12px;">
         <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
-        İLK PARTİ FİYATLANDIRMASI</span>
-      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0; margin-bottom: 12px;">İlk Parti Ön Sipariş</h2>
-      <span style="display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; color: #6EE7B7; background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25); border-radius: 999px; padding: 5px 14px;">İlk 200 adet</span>
+        İKİNCİ PARTİ FİYATLANDIRMASI</span>
+      <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; color: #e8e8f0; margin-bottom: 12px;">İkinci Parti Ön Sipariş</h2>
+      <span style="display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; color: #6EE7B7; background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25); border-radius: 999px; padding: 5px 14px;">İkinci Parti · 100 adet</span>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: stretch; flex-wrap: wrap;">
@@ -476,10 +555,10 @@
           </div>
         </div>
 
-        <!-- Batch progress -->
+        <!-- Parti progress -->
         <div style="background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.12); border-radius: 14px; padding: 12px 16px; margin-bottom: 20px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-            <span style="font-size: 0.72rem; font-weight: 700; color: #A78BFA;">İlk Parti Stoğu</span>
+            <span style="font-size: 0.72rem; font-weight: 700; color: #A78BFA;">İkinci Parti Stoğu</span>
             <span style="font-size: 0.68rem; color: #666677;">{{ stockRemaining }} / {{ stockTotal }} kaldı</span>
           </div>
           <div style="height: 3px; border-radius: 3px; background: rgba(167,139,250,0.12); overflow: hidden;">
@@ -1065,7 +1144,7 @@
       </div>
       <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.74rem; color: #6EE7B7; margin-bottom: 1.5rem;">
         <span style="width: 6px; height: 6px; border-radius: 50%; background: #6EE7B7; box-shadow: 0 0 8px rgba(110,231,183,0.4);"></span>
-        Batch 1 stoğu güncellendi — {{ stockRemaining }} / {{ stockTotal }} kaldı
+        İkinci Parti stoğu güncellendi — {{ stockRemaining }} / {{ stockTotal }} kaldı
       </div>
       <a href="download.html" style="display: block; width: 100%; padding: 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: opacity 150ms; border: 0; background: #A78BFA; color: #fff; font-family: inherit; text-decoration: none; margin-bottom: 10px;" style-hover="opacity: 0.88">İndirme sayfasına git →</a>
       <button onClick="{{ closeSuccess }}" style="width: 100%; padding: 12px; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; background: none; border: 1px solid rgba(42,49,59,0.5); color: #666677; font-family: inherit; transition: all 150ms;" style-hover="border-color: rgba(167,139,250,0.3); color: #e8e8f0">Şimdi değil</button>
@@ -1092,7 +1171,7 @@ class Component extends DCLogic {
     activeModeIdx: -1,
     currentGif: 'uploads/idle-1.gif',
     gifMode: 'idle',
-    stockSold: 20,
+    stockSold: 98,
     showSuccessModal: false,
     roadmapRangeIdx: 1,
     completedOpen: true,
@@ -1101,7 +1180,7 @@ class Component extends DCLogic {
   };
 
   prices = {
-    tr: { price: 2499, original: 4999, currency: '₺', format: (n) => n.toLocaleString('tr-TR') + ' ₺' },
+    tr: { price: 2999, original: 4999, currency: '₺', format: (n) => n.toLocaleString('tr-TR') + ' ₺' },
     en: { price: 89.99, original: 199, currency: '$', format: (n) => '$' + n.toFixed(2) },
   };
 
@@ -1176,9 +1255,9 @@ class Component extends DCLogic {
     if (this._deviceSlideTimer) { clearInterval(this._deviceSlideTimer); this._deviceSlideTimer = null; }
   }
 
-  stockTotal = 200;
-  _stockKey = 'sadik_batch1_sold';
-  _baselineSold = 20; // başlangıç: 180/200 kaldı
+  stockTotal = 100;
+  _stockKey = 'sadik_batch2_sold';
+  _baselineSold = 98; // başlangıç: 2/100 kaldı
 
   _getSold() {
     const raw = localStorage.getItem(this._stockKey);
